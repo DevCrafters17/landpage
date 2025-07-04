@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SentryX - Ultimate Discord Protection Bot</title>
+    <title>SentryX - Free Ultimate Discord Protection Bot</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;800&family=Orbitron:wght@700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
@@ -13,15 +13,18 @@
         :root {
             --bg-dark: #0a0a12;
             --bg-darker: #050508;
-            --primary: #00f5d4;
-            --primary-dark: #00c7ab;
-            --secondary: #a362ea;
-            --accent: #ff2a6d;
+            --primary: #00c6ff;
+            --primary-dark: #0072ff;
+            --secondary: #00ffcc;
+            --accent: #ff00aa;
             --text: #f0f0ff;
             --text-secondary: #b0b0d0;
             --glass: rgba(20, 20, 40, 0.6);
             --glass-border: rgba(100, 200, 255, 0.1);
             --card-bg: rgba(15, 15, 30, 0.7);
+            --sky-blue: #87ceeb;
+            --deep-sky: #00bfff;
+            --light-sky: #b0e2ff;
         }
         
         * {
@@ -49,6 +52,26 @@
             z-index: -1;
         }
         
+        /* Floating bubbles background */
+        .bubbles-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(0, 198, 255, 0.1);
+            box-shadow: inset 0 0 20px rgba(0, 198, 255, 0.3), 0 0 20px rgba(0, 198, 255, 0.2);
+            animation: float 15s infinite ease-in-out;
+            opacity: 0.5;
+        }
+        
         /* Header & Navigation */
         header {
             position: fixed;
@@ -74,7 +97,7 @@
         .logo {
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--primary), var(--deep-sky));
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -90,7 +113,7 @@
             font-family: 'Orbitron', sans-serif;
             font-size: 24px;
             font-weight: 800;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+            background: linear-gradient(to right, var(--primary), var(--deep-sky));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: 1px;
@@ -172,11 +195,13 @@
             -webkit-text-fill-color: transparent;
             letter-spacing: 2px;
             line-height: 1.2;
+            text-shadow: 0 0 20px rgba(0, 198, 255, 0.5);
         }
         
         .hero h1 span {
             display: block;
             font-size: 3.5rem;
+            animation: glow 2s infinite alternate;
         }
         
         .tagline {
@@ -184,6 +209,7 @@
             color: var(--text-secondary);
             margin-bottom: 40px;
             position: relative;
+            animation: fadeIn 1.5s ease-out;
         }
         
         .tagline:after {
@@ -196,6 +222,7 @@
             height: 3px;
             background: linear-gradient(to right, var(--primary), var(--secondary));
             border-radius: 3px;
+            animation: lineExpand 1s ease-out;
         }
         
         .hero-buttons {
@@ -223,23 +250,42 @@
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: var(--bg-darker);
-            box-shadow: 0 5px 25px rgba(0, 245, 212, 0.4);
+            box-shadow: 0 5px 25px rgba(0, 198, 255, 0.6);
+            animation: pulseBtn 2s infinite;
         }
         
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 245, 212, 0.6);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 35px rgba(0, 198, 255, 0.8);
+            animation: none;
         }
         
         .btn-secondary {
             background: transparent;
             color: var(--primary);
             border: 2px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-secondary:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 198, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn-secondary:hover:before {
+            left: 100%;
         }
         
         .btn-secondary:hover {
-            background: rgba(0, 245, 212, 0.1);
-            box-shadow: 0 0 20px rgba(0, 245, 212, 0.3);
+            background: rgba(0, 198, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 198, 255, 0.4);
         }
         
         .stats {
@@ -259,11 +305,19 @@
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             transition: transform 0.3s ease;
+            animation: floatStat 6s infinite ease-in-out;
         }
         
+        .stat-item:nth-child(1) { animation-delay: 0s; }
+        .stat-item:nth-child(2) { animation-delay: 1s; }
+        .stat-item:nth-child(3) { animation-delay: 2s; }
+        .stat-item:nth-child(4) { animation-delay: 3s; }
+        
         .stat-item:hover {
-            transform: translateY(-10px);
-            border-color: rgba(0, 245, 212, 0.3);
+            transform: translateY(-10px) scale(1.05);
+            border-color: rgba(0, 198, 255, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 198, 255, 0.3);
+            animation: none;
         }
         
         .stat-value {
@@ -321,12 +375,14 @@
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
+            transform: translateY(20px);
+            opacity: 0;
         }
         
         .feature-card:hover {
             transform: translateY(-10px);
             border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(0, 245, 212, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 198, 255, 0.3);
         }
         
         .feature-card:before {
@@ -349,7 +405,7 @@
         .feature-icon {
             width: 70px;
             height: 70px;
-            background: rgba(0, 245, 212, 0.1);
+            background: rgba(0, 198, 255, 0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -370,15 +426,15 @@
             font-size: 1.1rem;
         }
         
-        /* Demo Section */
-        .demo {
+        /* Command Showcase Section */
+        .commands {
             padding: 100px 5%;
             background: var(--bg-darker);
             position: relative;
             overflow: hidden;
         }
         
-        .demo-container {
+        .commands-container {
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
@@ -387,12 +443,12 @@
             gap: 50px;
         }
         
-        .demo-content {
+        .commands-content {
             flex: 1;
             min-width: 300px;
         }
         
-        .demo-image {
+        .commands-image {
             flex: 1;
             min-width: 300px;
             border-radius: 15px;
@@ -400,37 +456,44 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
             position: relative;
             border: 1px solid var(--glass-border);
+            background: linear-gradient(135deg, rgba(0, 198, 255, 0.1), rgba(0, 114, 255, 0.1));
+            padding: 30px;
+            font-family: 'Courier New', monospace;
+            color: var(--light-sky);
+            line-height: 1.8;
         }
         
-        .demo-image img {
-            width: 100%;
-            height: auto;
-            display: block;
+        .command-line {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+            animation: typewriter 4s steps(40) 1s 1 normal both;
         }
         
-        .demo-image:after {
-            content: '';
+        .command-line:before {
+            content: '>';
             position: absolute;
-            top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(0, 245, 212, 0.1), rgba(163, 98, 234, 0.1));
-            pointer-events: none;
+            color: var(--primary);
         }
         
-        .demo-features {
+        .command-highlight {
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .commands-features {
             margin-top: 30px;
         }
         
-        .demo-feature {
+        .commands-feature {
             display: flex;
             align-items: center;
             gap: 15px;
             margin-bottom: 20px;
         }
         
-        .demo-feature i {
+        .commands-feature i {
             color: var(--primary);
             font-size: 1.2rem;
         }
@@ -452,6 +515,8 @@
             border: 1px solid var(--glass-border);
             position: relative;
             overflow: hidden;
+            transform: scale(0.95);
+            opacity: 0;
         }
         
         .cta-box:before {
@@ -461,7 +526,7 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(0, 245, 212, 0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(0, 198, 255, 0.1) 0%, transparent 70%);
             animation: rotate 15s linear infinite;
             z-index: -1;
         }
@@ -566,22 +631,46 @@
         /* Animations */
         @keyframes pulse {
             0% {
-                box-shadow: 0 0 0 0 rgba(0, 245, 212, 0.7);
+                box-shadow: 0 0 0 0 rgba(0, 198, 255, 0.7);
             }
             70% {
-                box-shadow: 0 0 0 15px rgba(0, 245, 212, 0);
+                box-shadow: 0 0 0 15px rgba(0, 198, 255, 0);
             }
             100% {
-                box-shadow: 0 0 0 0 rgba(0, 245, 212, 0);
+                box-shadow: 0 0 0 0 rgba(0, 198, 255, 0);
+            }
+        }
+        
+        @keyframes pulseBtn {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 198, 255, 0.6);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(0, 198, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 198, 255, 0);
             }
         }
         
         @keyframes float {
             0% {
+                transform: translateY(0px) translateX(0);
+            }
+            50% {
+                transform: translateY(-40px) translateX(20px);
+            }
+            100% {
+                transform: translateY(0px) translateX(0);
+            }
+        }
+        
+        @keyframes floatStat {
+            0% {
                 transform: translateY(0px);
             }
             50% {
-                transform: translateY(-20px);
+                transform: translateY(-15px);
             }
             100% {
                 transform: translateY(0px);
@@ -594,6 +683,44 @@
             }
             100% {
                 transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 10px rgba(0, 198, 255, 0.5);
+            }
+            100% {
+                text-shadow: 0 0 30px rgba(0, 198, 255, 0.8), 0 0 50px rgba(0, 198, 255, 0.6);
+            }
+        }
+        
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes lineExpand {
+            0% {
+                width: 0;
+            }
+            100% {
+                width: 100px;
+            }
+        }
+        
+        @keyframes typewriter {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
             }
         }
         
@@ -660,6 +787,10 @@
             .stat-value {
                 font-size: 2rem;
             }
+            
+            .commands-container {
+                flex-direction: column;
+            }
         }
         
         @media (max-width: 576px) {
@@ -693,6 +824,9 @@
     <!-- Particles Background -->
     <div id="particles-js"></div>
     
+    <!-- Floating bubbles -->
+    <div class="bubbles-bg" id="bubbles"></div>
+    
     <!-- Header -->
     <header>
         <div class="logo-container">
@@ -706,14 +840,13 @@
             </button>
             <ul>
                 <li><a href="#features">Features</a></li>
-                <li><a href="#demo">Demo</a></li>
-                <li><a href="#pricing">Pricing</a></li>
-                <li><a href="#docs">Docs</a></li>
+                <li><a href="#commands">Commands</a></li>
+                <li><a href="#invite">Invite</a></li>
+                <li><a href="#support">Support</a></li>
             </ul>
         </nav>
         
         <div class="nav-buttons">
-            <button class="btn btn-secondary">Login</button>
             <button class="btn btn-primary">Invite Bot</button>
         </div>
     </header>
@@ -722,7 +855,7 @@
     <section class="hero">
         <div class="hero-content">
             <h1>Introducing <span>SENTRYX</span></h1>
-            <div class="tagline">The Ultimate Discord Protection & Utility Bot</div>
+            <div class="tagline">The Ultimate FREE Discord Protection & Utility Bot</div>
             
             <div class="hero-buttons">
                 <button class="btn btn-primary">Invite Now</button>
@@ -743,8 +876,8 @@
                     <div class="stat-label">Uptime</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value">99.9%</div>
-                    <div class="stat-label">Reliability</div>
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Free Forever</div>
                 </div>
             </div>
         </div>
@@ -805,59 +938,62 @@
         </div>
     </section>
     
-    <!-- Demo Section -->
-    <section class="demo" id="demo">
-        <div class="demo-container">
-            <div class="demo-content">
-                <h2 class="section-title">Premium Dashboard Experience</h2>
-                <p>Control every aspect of your server with our intuitive web dashboard. Configure moderation settings, view analytics, and customize your server protection.</p>
+    <!-- Command Showcase Section -->
+    <section class="commands" id="commands">
+        <div class="commands-container">
+            <div class="commands-content">
+                <h2 class="section-title">Powerful Command Interface</h2>
+                <p>Control your server with our intuitive command system. SentryX offers 76+ commands for complete server management and protection.</p>
                 
-                <div class="demo-features">
-                    <div class="demo-feature">
+                <div class="commands-features">
+                    <div class="commands-feature">
                         <i class="fas fa-check-circle"></i>
-                        <span>Real-time server monitoring</span>
+                        <span>Easy-to-remember command structure</span>
                     </div>
-                    <div class="demo-feature">
+                    <div class="commands-feature">
                         <i class="fas fa-check-circle"></i>
-                        <span>Customizable protection thresholds</span>
+                        <span>Context-sensitive help system</span>
                     </div>
-                    <div class="demo-feature">
+                    <div class="commands-feature">
                         <i class="fas fa-check-circle"></i>
-                        <span>Detailed analytics and reports</span>
+                        <span>Permission-based command access</span>
                     </div>
-                    <div class="demo-feature">
+                    <div class="commands-feature">
                         <i class="fas fa-check-circle"></i>
-                        <span>Role and permission management</span>
+                        <span>Real-time command execution feedback</span>
                     </div>
                 </div>
-                
-                <button class="btn btn-primary" style="margin-top: 30px;">View Live Demo</button>
             </div>
             
-            <div class="demo-image">
-                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="SentryX Dashboard">
+            <div class="commands-image">
+                <div class="command-line"><span class="command-highlight">sx!automod</span> enable antispam</div>
+                <div class="command-line"><span class="command-highlight">sx!antinuke</span> config raid_threshold 5</div>
+                <div class="command-line"><span class="command-highlight">sx!giveaway</span> start 1d "Premium Nitro"</div>
+                <div class="command-line"><span class="command-highlight">sx!mod</span> ban @user Spamming</div>
+                <div class="command-line"><span class="command-highlight">sx!autorole</span> set @new_member</div>
+                <div class="command-line"><span class="command-highlight">sx!stats</span> server</div>
             </div>
         </div>
     </section>
     
     <!-- CTA Section -->
-    <section class="cta">
+    <section class="cta" id="invite">
         <div class="cta-box">
             <h2>Ready to Protect Your Server?</h2>
-            <p>Join thousands of servers already secured by SentryX. Launching on July 6, 2025 - be among the first to deploy the ultimate Discord protection system.</p>
+            <p>Join thousands of servers already secured by SentryX. Launching on July 6, 2025 - be among the first to deploy the ultimate FREE Discord protection system.</p>
             <button class="btn btn-primary" style="padding: 18px 50px; font-size: 1.2rem;">Add SentryX to Discord</button>
         </div>
     </section>
     
     <!-- Footer -->
-    <footer>
+    <footer id="support">
         <div class="footer-content">
             <div class="footer-logo">
                 <div class="logo-container">
                     <div class="logo">SX</div>
                     <div class="logo-text">SENTRYX</div>
                 </div>
-                <p>The ultimate protection system for Discord communities. Built with performance and reliability in mind.</p>
+                <p>The ultimate FREE protection system for Discord communities. Built with performance and reliability in mind.</p>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-discord"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
@@ -880,11 +1016,11 @@
             <div class="footer-links">
                 <h3>Resources</h3>
                 <ul>
-                    <li><a href="#">Documentation</a></li>
-                    <li><a href="#">Tutorials</a></li>
+                    <li><a href="#">Command List</a></li>
+                    <li><a href="#">Setup Guide</a></li>
                     <li><a href="#">Support Server</a></li>
                     <li><a href="#">Status</a></li>
-                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">FAQ</a></li>
                 </ul>
             </div>
             
@@ -893,14 +1029,13 @@
                 <ul>
                     <li><a href="#">Terms of Service</a></li>
                     <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Cookie Policy</a></li>
-                    <li><a href="#">Data Processing</a></li>
+                    <li><a href="#">Open Source</a></li>
                 </ul>
             </div>
         </div>
         
         <div class="copyright">
-            &copy; 2025 SentryX. All rights reserved. Launching July 6, 2025.
+            &copy; 2025 SentryX. All rights reserved. Launching July 6, 2025. 100% FREE FOREVER.
         </div>
     </footer>
     
@@ -909,7 +1044,7 @@
         particlesJS("particles-js", {
             particles: {
                 number: { value: 80, density: { enable: true, value_area: 800 } },
-                color: { value: "#00f5d4" },
+                color: { value: "#00c6ff" },
                 shape: { 
                     type: "circle",
                     stroke: { width: 0, color: "#000000" },
@@ -928,7 +1063,7 @@
                 line_linked: {
                     enable: true,
                     distance: 150,
-                    color: "#00c7ab",
+                    color: "#00aaff",
                     opacity: 0.4,
                     width: 1
                 },
@@ -957,6 +1092,28 @@
             },
             retina_detect: true
         });
+        
+        // Create floating bubbles
+        const bubblesContainer = document.getElementById('bubbles');
+        for (let i = 0; i < 20; i++) {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            
+            // Random size
+            const size = Math.random() * 100 + 20;
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+            
+            // Random position
+            bubble.style.left = `${Math.random() * 100}%`;
+            bubble.style.top = `${Math.random() * 100}%`;
+            
+            // Random animation duration
+            bubble.style.animationDuration = `${Math.random() * 20 + 10}s`;
+            bubble.style.animationDelay = `${Math.random() * 5}s`;
+            
+            bubblesContainer.appendChild(bubble);
+        }
         
         // GSAP Animations
         gsap.registerPlugin(ScrollTrigger);
@@ -995,22 +1152,25 @@
         });
         
         // Feature cards animation
-        gsap.from(".feature-card", {
-            scrollTrigger: {
-                trigger: ".features",
-                start: "top 80%"
-            },
-            y: 50,
-            opacity: 0,
-            stagger: 0.2,
-            duration: 0.8,
-            ease: "power2.out"
+        gsap.utils.toArray(".feature-card").forEach((card, index) => {
+            gsap.to(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 90%",
+                    toggleActions: "play none none none"
+                },
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                delay: index * 0.1,
+                ease: "power2.out"
+            });
         });
         
-        // Demo section animation
-        gsap.from(".demo-content", {
+        // Command section animation
+        gsap.from(".commands-content", {
             scrollTrigger: {
-                trigger: ".demo",
+                trigger: ".commands",
                 start: "top 80%"
             },
             x: -50,
@@ -1019,9 +1179,9 @@
             ease: "power3.out"
         });
         
-        gsap.from(".demo-image", {
+        gsap.from(".commands-image", {
             scrollTrigger: {
-                trigger: ".demo",
+                trigger: ".commands",
                 start: "top 80%"
             },
             x: 50,
@@ -1031,13 +1191,14 @@
         });
         
         // CTA animation
-        gsap.from(".cta-box", {
+        gsap.to(".cta-box", {
             scrollTrigger: {
                 trigger: ".cta",
-                start: "top 80%"
+                start: "top 80%",
+                toggleActions: "play none none none"
             },
-            scale: 0.9,
-            opacity: 0,
+            scale: 1,
+            opacity: 1,
             duration: 1,
             ease: "elastic.out(1, 0.8)"
         });
@@ -1057,6 +1218,24 @@
                 icon.classList.add('fa-bars');
             }
         });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile menu if open
+                if (navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+                    mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
     </script>
 </body>
-      </html>
+                        </html>
