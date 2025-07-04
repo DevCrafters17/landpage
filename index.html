@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SentryX - Free Ultimate Discord Protection Bot</title>
+    <title>SentryX - Ultimate Discord Protection Bot</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;800&family=Orbitron:wght@700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
@@ -11,17 +11,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         :root {
-            --bg-dark: #0a0a12;
-            --bg-darker: #050508;
+            --bg-dark: #0a0a1a;
+            --bg-darker: #050510;
             --primary: #00c6ff;
             --primary-dark: #0072ff;
             --secondary: #00ffcc;
             --accent: #ff00aa;
             --text: #f0f0ff;
             --text-secondary: #b0b0d0;
-            --glass: rgba(20, 20, 40, 0.6);
-            --glass-border: rgba(100, 200, 255, 0.1);
-            --card-bg: rgba(15, 15, 30, 0.7);
+            --glass: rgba(20, 30, 60, 0.6);
+            --glass-border: rgba(100, 200, 255, 0.15);
+            --card-bg: rgba(15, 25, 50, 0.7);
             --sky-blue: #87ceeb;
             --deep-sky: #00bfff;
             --light-sky: #b0e2ff;
@@ -38,7 +38,7 @@
             background-color: var(--bg-dark);
             color: var(--text);
             overflow-x: hidden;
-            background: radial-gradient(ellipse at top, #0d0d1a 0%, var(--bg-darker) 80%);
+            background: radial-gradient(ellipse at top, #0d0d2a 0%, var(--bg-darker) 80%);
             line-height: 1.7;
         }
         
@@ -72,6 +72,64 @@
             opacity: 0.5;
         }
         
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-darker);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+        
+        .preloader-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--deep-sky));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--bg-darker);
+            box-shadow: 0 0 30px var(--primary);
+            animation: pulse 2s infinite;
+        }
+        
+        .preloader-text {
+            margin-top: 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--deep-sky));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+        }
+        
+        .loader-bar {
+            width: 300px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        
+        .loader-progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, var(--primary), var(--deep-sky));
+            animation: loading 3s ease-in-out forwards;
+        }
+        
         /* Header & Navigation */
         header {
             position: fixed;
@@ -86,6 +144,7 @@
             background: var(--glass);
             border-bottom: 1px solid var(--glass-border);
             transition: all 0.4s ease;
+            transform: translateY(-100%);
         }
         
         .logo-container {
@@ -187,7 +246,7 @@
         
         .hero h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 4rem;
+            font-size: 4.5rem;
             font-weight: 800;
             margin-bottom: 20px;
             background: linear-gradient(to right, var(--text), var(--primary));
@@ -196,20 +255,23 @@
             letter-spacing: 2px;
             line-height: 1.2;
             text-shadow: 0 0 20px rgba(0, 198, 255, 0.5);
+            transform: translateY(50px);
+            opacity: 0;
         }
         
         .hero h1 span {
             display: block;
-            font-size: 3.5rem;
+            font-size: 3.8rem;
             animation: glow 2s infinite alternate;
         }
         
         .tagline {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: var(--text-secondary);
             margin-bottom: 40px;
             position: relative;
-            animation: fadeIn 1.5s ease-out;
+            transform: translateY(30px);
+            opacity: 0;
         }
         
         .tagline:after {
@@ -218,11 +280,10 @@
             bottom: -20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
+            width: 120px;
+            height: 4px;
             background: linear-gradient(to right, var(--primary), var(--secondary));
             border-radius: 3px;
-            animation: lineExpand 1s ease-out;
         }
         
         .hero-buttons {
@@ -230,14 +291,16 @@
             gap: 20px;
             justify-content: center;
             margin-top: 50px;
+            transform: translateY(40px);
+            opacity: 0;
         }
         
         .btn {
-            padding: 15px 35px;
+            padding: 16px 40px;
             border-radius: 50px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -294,14 +357,16 @@
             gap: 40px;
             margin-top: 60px;
             flex-wrap: wrap;
+            transform: translateY(50px);
+            opacity: 0;
         }
         
         .stat-item {
             text-align: center;
-            padding: 20px;
+            padding: 25px 30px;
             background: var(--glass);
-            border-radius: 15px;
-            min-width: 180px;
+            border-radius: 20px;
+            min-width: 200px;
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             transition: transform 0.3s ease;
@@ -322,28 +387,30 @@
         
         .stat-value {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 700;
             color: var(--primary);
             margin-bottom: 10px;
         }
         
         .stat-label {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: var(--text-secondary);
         }
         
         /* Features Section */
         .features {
-            padding: 150px 5% 100px;
+            padding: 120px 5% 80px;
             position: relative;
         }
         
         .section-title {
             text-align: center;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 80px;
             position: relative;
+            transform: translateY(30px);
+            opacity: 0;
         }
         
         .section-title:after {
@@ -352,37 +419,37 @@
             bottom: -20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
+            width: 100px;
+            height: 5px;
             background: linear-gradient(to right, var(--primary), var(--secondary));
-            border-radius: 2px;
+            border-radius: 3px;
         }
         
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
             max-width: 1400px;
             margin: 0 auto;
         }
         
         .feature-card {
             background: var(--card-bg);
-            border-radius: 15px;
-            padding: 40px 30px;
-            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 45px 35px;
+            backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
-            transform: translateY(20px);
+            transform: translateY(30px);
             opacity: 0;
         }
         
         .feature-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-15px);
             border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(0, 198, 255, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 198, 255, 0.3);
         }
         
         .feature-card:before {
@@ -391,7 +458,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
+            height: 5px;
             background: linear-gradient(to right, var(--primary), var(--secondary));
             transform: scaleX(0);
             transform-origin: left;
@@ -403,69 +470,80 @@
         }
         
         .feature-icon {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             background: rgba(0, 198, 255, 0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 25px;
-            font-size: 28px;
+            margin-bottom: 30px;
+            font-size: 32px;
             color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(10deg);
+            background: rgba(0, 198, 255, 0.2);
         }
         
         .feature-title {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
             color: var(--primary);
         }
         
         .feature-desc {
             color: var(--text-secondary);
-            font-size: 1.1rem;
+            font-size: 1.15rem;
+            line-height: 1.8;
         }
         
         /* Command Showcase Section */
         .commands {
             padding: 100px 5%;
-            background: var(--bg-darker);
             position: relative;
             overflow: hidden;
         }
         
         .commands-container {
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 50px;
+            gap: 60px;
         }
         
         .commands-content {
             flex: 1;
             min-width: 300px;
+            transform: translateX(-50px);
+            opacity: 0;
         }
         
         .commands-image {
             flex: 1;
             min-width: 300px;
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
             position: relative;
             border: 1px solid var(--glass-border);
             background: linear-gradient(135deg, rgba(0, 198, 255, 0.1), rgba(0, 114, 255, 0.1));
-            padding: 30px;
+            padding: 40px;
             font-family: 'Courier New', monospace;
             color: var(--light-sky);
             line-height: 1.8;
+            font-size: 1.1rem;
+            transform: translateX(50px);
+            opacity: 0;
         }
         
         .command-line {
-            margin-bottom: 15px;
-            padding-left: 20px;
+            margin-bottom: 18px;
+            padding-left: 25px;
             position: relative;
             animation: typewriter 4s steps(40) 1s 1 normal both;
         }
@@ -475,6 +553,7 @@
             position: absolute;
             left: 0;
             color: var(--primary);
+            font-weight: bold;
         }
         
         .command-highlight {
@@ -483,35 +562,36 @@
         }
         
         .commands-features {
-            margin-top: 30px;
+            margin-top: 40px;
         }
         
         .commands-feature {
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         .commands-feature i {
             color: var(--primary);
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            min-width: 25px;
         }
         
         /* CTA Section */
         .cta {
-            padding: 150px 5% 100px;
+            padding: 140px 5% 100px;
             text-align: center;
             position: relative;
         }
         
         .cta-box {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 60px;
+            padding: 70px;
             background: var(--card-bg);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            backdrop-filter: blur(15px);
             border: 1px solid var(--glass-border);
             position: relative;
             overflow: hidden;
@@ -526,21 +606,24 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(0, 198, 255, 0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(0, 198, 255, 0.15) 0%, transparent 70%);
             animation: rotate 15s linear infinite;
             z-index: -1;
         }
         
         .cta h2 {
-            font-size: 2.8rem;
-            margin-bottom: 20px;
+            font-size: 3.2rem;
+            margin-bottom: 25px;
+            background: linear-gradient(to right, var(--text), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         .cta p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: var(--text-secondary);
-            margin-bottom: 40px;
-            max-width: 600px;
+            margin-bottom: 50px;
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -548,31 +631,31 @@
         /* Footer */
         footer {
             background: var(--bg-darker);
-            padding: 80px 5% 40px;
+            padding: 100px 5% 50px;
             border-top: 1px solid rgba(100, 200, 255, 0.1);
         }
         
         .footer-content {
-            max-width: 1400px;
+            max-width: 1500px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 50px;
         }
         
         .footer-logo {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 25px;
         }
         
         .footer-logo .logo-text {
-            font-size: 2rem;
+            font-size: 2.2rem;
         }
         
         .footer-links h3 {
-            font-size: 1.3rem;
-            margin-bottom: 25px;
+            font-size: 1.4rem;
+            margin-bottom: 30px;
             color: var(--primary);
         }
         
@@ -581,13 +664,14 @@
         }
         
         .footer-links li {
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
         
         .footer-links a {
             color: var(--text-secondary);
             text-decoration: none;
             transition: color 0.3s ease;
+            font-size: 1.1rem;
         }
         
         .footer-links a:hover {
@@ -597,19 +681,19 @@
         .social-links {
             display: flex;
             gap: 15px;
-            margin-top: 20px;
+            margin-top: 25px;
         }
         
         .social-links a {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: var(--glass);
             color: var(--text);
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             transition: all 0.3s ease;
         }
         
@@ -621,11 +705,11 @@
         
         .copyright {
             text-align: center;
-            padding-top: 60px;
+            padding-top: 70px;
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: 1rem;
             border-top: 1px solid rgba(100, 200, 255, 0.1);
-            margin-top: 60px;
+            margin-top: 70px;
         }
         
         /* Animations */
@@ -706,15 +790,6 @@
             }
         }
         
-        @keyframes lineExpand {
-            0% {
-                width: 0;
-            }
-            100% {
-                width: 100px;
-            }
-        }
-        
         @keyframes typewriter {
             from {
                 width: 0;
@@ -724,18 +799,38 @@
             }
         }
         
+        @keyframes loading {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
         /* Responsive Design */
-        @media (max-width: 992px) {
+        @media (max-width: 1200px) {
             .hero h1 {
-                font-size: 3rem;
+                font-size: 4rem;
             }
             
             .hero h1 span {
-                font-size: 2.5rem;
+                font-size: 3.2rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3.2rem;
+            }
+            
+            .hero h1 span {
+                font-size: 2.8rem;
             }
             
             .tagline {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
+            }
+            
+            .stat-item {
+                min-width: 180px;
+                padding: 20px 25px;
             }
         }
         
@@ -762,12 +857,20 @@
                 right: 0;
             }
             
+            .nav-buttons {
+                display: none;
+            }
+            
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
             }
             
             .hero h1 span {
-                font-size: 2rem;
+                font-size: 2.3rem;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
             }
             
             .hero-buttons {
@@ -780,26 +883,30 @@
             }
             
             .stat-item {
-                min-width: 140px;
-                padding: 15px;
+                min-width: 160px;
+                padding: 20px;
             }
             
             .stat-value {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             
             .commands-container {
                 flex-direction: column;
             }
+            
+            .cta-box {
+                padding: 50px 30px;
+            }
         }
         
         @media (max-width: 576px) {
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.3rem;
             }
             
             .hero h1 span {
-                font-size: 1.7rem;
+                font-size: 2rem;
             }
             
             .tagline {
@@ -807,20 +914,33 @@
             }
             
             .section-title {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             
             .cta h2 {
-                font-size: 2.2rem;
+                font-size: 2.5rem;
             }
             
             .cta-box {
                 padding: 40px 20px;
             }
+            
+            .feature-card {
+                padding: 35px 25px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-logo">SX</div>
+        <div class="preloader-text">SENTRYX</div>
+        <div class="loader-bar">
+            <div class="loader-progress"></div>
+        </div>
+    </div>
+    
     <!-- Particles Background -->
     <div id="particles-js"></div>
     
@@ -847,7 +967,7 @@
         </nav>
         
         <div class="nav-buttons">
-            <button class="btn btn-primary">Invite Bot</button>
+            <a href="https://discord.com/oauth2/authorize?client_id=1390311637529137264&permissions=8&integration_type=0&scope=bot" class="btn btn-primary">Invite Bot</a>
         </div>
     </header>
     
@@ -858,8 +978,8 @@
             <div class="tagline">The Ultimate FREE Discord Protection & Utility Bot</div>
             
             <div class="hero-buttons">
-                <button class="btn btn-primary">Invite Now</button>
-                <button class="btn btn-secondary">Explore Features</button>
+                <a href="https://discord.com/oauth2/authorize?client_id=1390311637529137264&permissions=8&integration_type=0&scope=bot" class="btn btn-primary">Invite Now</a>
+                <a href="#features" class="btn btn-secondary">Explore Features</a>
             </div>
             
             <div class="stats">
@@ -893,7 +1013,7 @@
                     <i class="fas fa-shield-alt"></i>
                 </div>
                 <h3 class="feature-title">Anti-Nuke Protection</h3>
-                <p class="feature-desc">Real-time raid defense with automatic role restoration and ban reversal.</p>
+                <p class="feature-desc">Real-time raid defense with automatic role restoration and ban reversal. Prevents server destruction attempts.</p>
             </div>
             
             <div class="feature-card">
@@ -901,7 +1021,7 @@
                     <i class="fas fa-robot"></i>
                 </div>
                 <h3 class="feature-title">AutoMod System</h3>
-                <p class="feature-desc">Advanced spam detection, custom rules, and intelligent filtering.</p>
+                <p class="feature-desc">Advanced spam detection, custom rules, and intelligent filtering to keep your server clean.</p>
             </div>
             
             <div class="feature-card">
@@ -909,7 +1029,7 @@
                     <i class="fas fa-gift"></i>
                 </div>
                 <h3 class="feature-title">Giveaway Management</h3>
-                <p class="feature-desc">Easy setup, management, and winner selection for giveaways.</p>
+                <p class="feature-desc">Easy setup, management, and winner selection for giveaways with custom requirements.</p>
             </div>
             
             <div class="feature-card">
@@ -917,7 +1037,7 @@
                     <i class="fas fa-clipboard-list"></i>
                 </div>
                 <h3 class="feature-title">Advanced Logging</h3>
-                <p class="feature-desc">Comprehensive audit logs and server activity tracking.</p>
+                <p class="feature-desc">Comprehensive audit logs and server activity tracking with customizable channels.</p>
             </div>
             
             <div class="feature-card">
@@ -925,7 +1045,7 @@
                     <i class="fas fa-crown"></i>
                 </div>
                 <h3 class="feature-title">Moderation Tools</h3>
-                <p class="feature-desc">Bans, timeouts, cleans, and more with intuitive commands.</p>
+                <p class="feature-desc">Bans, timeouts, cleans, and more with intuitive commands and role-based permissions.</p>
             </div>
             
             <div class="feature-card">
@@ -933,7 +1053,7 @@
                     <i class="fas fa-sync-alt"></i>
                 </div>
                 <h3 class="feature-title">Auto-Responder</h3>
-                <p class="feature-desc">Create custom automated responses to specific triggers.</p>
+                <p class="feature-desc">Create custom automated responses to specific triggers with regex support.</p>
             </div>
         </div>
     </section>
@@ -947,31 +1067,31 @@
                 
                 <div class="commands-features">
                     <div class="commands-feature">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Easy-to-remember command structure</span>
+                        <i class="fas fa-bolt"></i>
+                        <span>Lightning-fast command execution</span>
                     </div>
                     <div class="commands-feature">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Context-sensitive help system</span>
+                        <i class="fas fa-cogs"></i>
+                        <span>Customizable command prefixes</span>
                     </div>
                     <div class="commands-feature">
-                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-shield-alt"></i>
                         <span>Permission-based command access</span>
                     </div>
                     <div class="commands-feature">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Real-time command execution feedback</span>
+                        <i class="fas fa-history"></i>
+                        <span>Command history and audit trails</span>
                     </div>
                 </div>
             </div>
             
             <div class="commands-image">
-                <div class="command-line"><span class="command-highlight">sx!automod</span> enable antispam</div>
+                <div class="command-line"><span class="command-highlight">sx!automod</span> enable antispam --level high</div>
                 <div class="command-line"><span class="command-highlight">sx!antinuke</span> config raid_threshold 5</div>
                 <div class="command-line"><span class="command-highlight">sx!giveaway</span> start 1d "Premium Nitro"</div>
-                <div class="command-line"><span class="command-highlight">sx!mod</span> ban @user Spamming</div>
-                <div class="command-line"><span class="command-highlight">sx!autorole</span> set @new_member</div>
-                <div class="command-line"><span class="command-highlight">sx!stats</span> server</div>
+                <div class="command-line"><span class="command-highlight">sx!mod</span> ban @user Spamming --days 7</div>
+                <div class="command-line"><span class="command-highlight">sx!autorole</span> set @new_member --delay 30s</div>
+                <div class="command-line"><span class="command-highlight">sx!stats</span> server --detailed</div>
             </div>
         </div>
     </section>
@@ -981,7 +1101,7 @@
         <div class="cta-box">
             <h2>Ready to Protect Your Server?</h2>
             <p>Join thousands of servers already secured by SentryX. Launching on July 6, 2025 - be among the first to deploy the ultimate FREE Discord protection system.</p>
-            <button class="btn btn-primary" style="padding: 18px 50px; font-size: 1.2rem;">Add SentryX to Discord</button>
+            <a href="https://discord.com/oauth2/authorize?client_id=1390311637529137264&permissions=8&integration_type=0&scope=bot" class="btn btn-primary" style="padding: 18px 50px; font-size: 1.2rem;">Add SentryX to Discord</a>
         </div>
     </section>
     
@@ -1005,11 +1125,11 @@
             <div class="footer-links">
                 <h3>Features</h3>
                 <ul>
-                    <li><a href="#">Anti-Nuke System</a></li>
-                    <li><a href="#">AutoMod</a></li>
-                    <li><a href="#">Giveaways</a></li>
-                    <li><a href="#">Moderation Tools</a></li>
-                    <li><a href="#">Logging</a></li>
+                    <li><a href="#features">Anti-Nuke System</a></li>
+                    <li><a href="#features">AutoMod</a></li>
+                    <li><a href="#features">Giveaways</a></li>
+                    <li><a href="#features">Moderation Tools</a></li>
+                    <li><a href="#features">Logging</a></li>
                 </ul>
             </div>
             
@@ -1040,10 +1160,74 @@
     </footer>
     
     <script>
+        // Preloader animation
+        window.addEventListener('load', function() {
+            const preloader = document.querySelector('.preloader');
+            setTimeout(() => {
+                gsap.to(preloader, {
+                    opacity: 0,
+                    visibility: 'hidden',
+                    duration: 0.8,
+                    ease: "power2.out",
+                    onComplete: () => {
+                        preloader.style.display = 'none';
+                        
+                        // Animate header in
+                        gsap.to('header', {
+                            y: 0,
+                            duration: 1,
+                            ease: "elastic.out(1, 0.8)"
+                        });
+                        
+                        // Animate hero elements
+                        gsap.to('.hero h1', {
+                            y: 0,
+                            opacity: 1,
+                            duration: 1,
+                            ease: "power3.out",
+                            delay: 0.2
+                        });
+                        
+                        gsap.to('.tagline', {
+                            y: 0,
+                            opacity: 1,
+                            duration: 1,
+                            ease: "power3.out",
+                            delay: 0.4
+                        });
+                        
+                        gsap.to('.hero-buttons', {
+                            y: 0,
+                            opacity: 1,
+                            duration: 1,
+                            ease: "power3.out",
+                            delay: 0.6
+                        });
+                        
+                        gsap.to('.stats', {
+                            y: 0,
+                            opacity: 1,
+                            duration: 1,
+                            ease: "power3.out",
+                            delay: 0.8
+                        });
+                        
+                        gsap.to('.section-title', {
+                            y: 0,
+                            opacity: 1,
+                            duration: 1,
+                            ease: "power3.out",
+                            delay: 1
+                        });
+                    }
+                });
+            }, 1500);
+        });
+        
         // Particles.js configuration
         particlesJS("particles-js", {
             particles: {
-                number: { value: 80, density: { enable: true, value_area: 800 } },
+                number: { value: 100, density: { enable: true, value_area: 800 } },
                 color: { value: "#00c6ff" },
                 shape: { 
                     type: "circle",
@@ -1051,31 +1235,31 @@
                     polygon: { nb_sides: 5 }
                 },
                 opacity: {
-                    value: 0.5,
-                    random: false,
-                    anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false }
+                    value: 0.6,
+                    random: true,
+                    anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false }
                 },
                 size: {
-                    value: 3,
+                    value: 4,
                     random: true,
-                    anim: { enable: false, speed: 40, size_min: 0.1, sync: false }
+                    anim: { enable: true, speed: 20, size_min: 0.1, sync: false }
                 },
                 line_linked: {
                     enable: true,
-                    distance: 150,
+                    distance: 130,
                     color: "#00aaff",
                     opacity: 0.4,
                     width: 1
                 },
                 move: {
                     enable: true,
-                    speed: 2,
+                    speed: 3,
                     direction: "none",
-                    random: false,
+                    random: true,
                     straight: false,
                     out_mode: "out",
                     bounce: false,
-                    attract: { enable: false, rotateX: 600, rotateY: 1200 }
+                    attract: { enable: true, rotateX: 600, rotateY: 1200 }
                 }
             },
             interactivity: {
@@ -1086,8 +1270,8 @@
                     resize: true
                 },
                 modes: {
-                    grab: { distance: 140, line_linked: { opacity: 1 } },
-                    push: { particles_nb: 4 }
+                    grab: { distance: 150, line_linked: { opacity: 1 } },
+                    push: { particles_nb: 6 }
                 }
             },
             retina_detect: true
@@ -1095,12 +1279,12 @@
         
         // Create floating bubbles
         const bubblesContainer = document.getElementById('bubbles');
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 25; i++) {
             const bubble = document.createElement('div');
             bubble.classList.add('bubble');
             
             // Random size
-            const size = Math.random() * 100 + 20;
+            const size = Math.random() * 120 + 30;
             bubble.style.width = `${size}px`;
             bubble.style.height = `${size}px`;
             
@@ -1109,7 +1293,7 @@
             bubble.style.top = `${Math.random() * 100}%`;
             
             // Random animation duration
-            bubble.style.animationDuration = `${Math.random() * 20 + 10}s`;
+            bubble.style.animationDuration = `${Math.random() * 25 + 15}s`;
             bubble.style.animationDelay = `${Math.random() * 5}s`;
             
             bubblesContainer.appendChild(bubble);
@@ -1117,39 +1301,6 @@
         
         // GSAP Animations
         gsap.registerPlugin(ScrollTrigger);
-        
-        // Hero text animation
-        gsap.from(".hero h1", {
-            duration: 1,
-            y: 50,
-            opacity: 0,
-            ease: "power3.out"
-        });
-        
-        gsap.from(".tagline", {
-            duration: 1,
-            y: 30,
-            opacity: 0,
-            delay: 0.3,
-            ease: "power3.out"
-        });
-        
-        gsap.from(".hero-buttons", {
-            duration: 1,
-            y: 40,
-            opacity: 0,
-            delay: 0.6,
-            ease: "power3.out"
-        });
-        
-        gsap.from(".stat-item", {
-            duration: 1,
-            y: 50,
-            opacity: 0,
-            stagger: 0.2,
-            delay: 1,
-            ease: "power3.out"
-        });
         
         // Feature cards animation
         gsap.utils.toArray(".feature-card").forEach((card, index) => {
@@ -1168,24 +1319,26 @@
         });
         
         // Command section animation
-        gsap.from(".commands-content", {
+        gsap.to(".commands-content", {
             scrollTrigger: {
                 trigger: ".commands",
-                start: "top 80%"
+                start: "top 80%",
+                toggleActions: "play none none none"
             },
-            x: -50,
-            opacity: 0,
+            x: 0,
+            opacity: 1,
             duration: 1,
             ease: "power3.out"
         });
         
-        gsap.from(".commands-image", {
+        gsap.to(".commands-image", {
             scrollTrigger: {
                 trigger: ".commands",
-                start: "top 80%"
+                start: "top 80%",
+                toggleActions: "play none none none"
             },
-            x: 50,
-            opacity: 0,
+            x: 0,
+            opacity: 1,
             duration: 1,
             ease: "power3.out"
         });
@@ -1236,6 +1389,25 @@
                 }
             });
         });
+        
+        // Hover effect for feature cards
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                gsap.to(card, {
+                    scale: 1.03,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, {
+                    scale: 1,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+        });
     </script>
 </body>
-                        </html>
+            </html>
