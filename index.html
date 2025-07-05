@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SentryX - Ultimate Discord Protection Bot</title>
+    <title>SentryX - Advanced Discord Security Bot</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -243,56 +243,6 @@
             transform: translateY(-5px) scale(1.05);
         }
 
-        /* Stats Section */
-        .stats {
-            padding: 80px 0;
-            position: relative;
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 30px 20px;
-            text-align: center;
-            transition: all 0.4s ease;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(108, 92, 231, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            border-color: var(--primary);
-        }
-
-        .stat-number {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.8rem;
-            font-weight: 700;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
-
-        .stat-label {
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #b0b0b0;
-        }
-
         /* Features Section */
         .features {
             padding: 120px 0;
@@ -368,6 +318,59 @@
             line-height: 1.6;
         }
 
+        /* Benefits Section */
+        .benefits {
+            padding: 100px 0;
+            background: rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px 25px;
+            text-align: center;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(108, 92, 231, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary);
+        }
+
+        .benefit-icon {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .benefit-card p {
+            color: #b0b0b0;
+            font-size: 1rem;
+        }
+
         /* CTA Section */
         .cta {
             padding: 150px 0;
@@ -400,6 +403,16 @@
             margin-bottom: 40px;
             color: #e0e0e0;
             line-height: 1.7;
+        }
+
+        .pricing-info {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px auto;
+            max-width: 500px;
+            border: 1px solid var(--secondary);
+            animation: pulse 3s infinite;
         }
 
         /* Footer */
@@ -533,6 +546,10 @@
             .section-title h2 {
                 font-size: 2.2rem;
             }
+            
+            .cta h2 {
+                font-size: 2.5rem;
+            }
         }
     </style>
 </head>
@@ -549,12 +566,11 @@
             <nav>
                 <ul>
                     <li><a href="#features">Features</a></li>
-                    <li><a href="#commands">Commands</a></li>
-                    <li><a href="#stats">Stats</a></li>
-                    <li><a href="#support">Support</a></li>
+                    <li><a href="#benefits">Benefits</a></li>
+                    <li><a href="#cta">Get Started</a></li>
                 </ul>
             </nav>
-            <button class="nav-btn">Invite Bot</button>
+            <button class="nav-btn">Invite Now</button>
         </div>
     </header>
 
@@ -563,35 +579,11 @@
         <div class="container hero-content">
             <div class="tagline"><i class="fas fa-shield-alt"></i> Introducing</div>
             <h1>SENTRY<span style="color: #ff7675;">X</span></h1>
-            <p>The Ultimate FREE Discord Protection & Utility Bot with Advanced Security Features and Real-time Monitoring</p>
+            <p>The Ultimate FREE Discord Protection & Utility Bot with Advanced Security Features</p>
             
             <div class="hero-btns">
-                <a href="#" class="btn primary-btn">Invite Now <i class="fas fa-arrow-right"></i></a>
+                <a href="#" class="btn primary-btn">Add to Discord <i class="fab fa-discord"></i></a>
                 <a href="#features" class="btn secondary-btn">Explore Features <i class="fas fa-search"></i></a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="stats" id="stats">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number" id="commands-counter">16+</div>
-                    <div class="stat-label">Commands</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="code-counter">4k+</div>
-                    <div class="stat-label">Lines of Code</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="uptime-counter">24/7</div>
-                    <div class="stat-label">Uptime</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="free-counter">120%</div>
-                    <div class="stat-label">Free Forever</div>
-                </div>
             </div>
         </div>
     </section>
@@ -600,8 +592,8 @@
     <section class="features" id="features">
         <div class="container">
             <div class="section-title">
-                <h2>Powerful Security Features</h2>
-                <p>Protect your community with our cutting-edge security technology</p>
+                <h2>Core Security Features</h2>
+                <p>Essential protection for your Discord community</p>
             </div>
             
             <div class="features-grid">
@@ -609,24 +601,24 @@
                     <div class="feature-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h3>Advanced Protection</h3>
-                    <p>Real-time threat detection and prevention against raids, spam, and malicious activities.</p>
+                    <h3>Raid Protection</h3>
+                    <p>Automatically detect and prevent server raids before they happen</p>
                 </div>
                 
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-robot"></i>
                     </div>
-                    <h3>Auto Moderation</h3>
-                    <p>Smart auto-moderation with customizable filters for words, links, and attachments.</p>
+                    <h3>Smart Moderation</h3>
+                    <p>AI-powered moderation to keep your server clean and safe</p>
                 </div>
                 
                 <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-user-lock"></i>
                     </div>
-                    <h3>Role Management</h3>
-                    <p>Automated role assignment and management to keep your server organized.</p>
+                    <h3>User Verification</h3>
+                    <p>Prevent bots and malicious users with verification systems</p>
                 </div>
                 
                 <div class="feature-card">
@@ -634,36 +626,70 @@
                         <i class="fas fa-bell"></i>
                     </div>
                     <h3>Instant Alerts</h3>
-                    <p>Get notified immediately of any suspicious activities in your server.</p>
+                    <p>Get notified immediately of any suspicious activities</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits" id="benefits">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose SentryX?</h2>
+                <p>Designed for modern Discord communities</p>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Lightning Fast</h3>
+                    <p>Optimized for performance with minimal resource usage</p>
                 </div>
                 
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-lock-open"></i>
                     </div>
-                    <h3>Server Analytics</h3>
-                    <p>Detailed analytics and reports on server activity and security events.</p>
+                    <h3>Free to Use</h3>
+                    <p>All core features completely free during launch</p>
                 </div>
                 
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-plug"></i>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-rocket"></i>
                     </div>
-                    <h3>Easy Integration</h3>
-                    <p>Seamless integration with your existing Discord setup in seconds.</p>
+                    <h3>Easy Setup</h3>
+                    <p>Get started in under 60 seconds with guided setup</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3>Continuous Updates</h3>
+                    <p>Regular improvements and new features added frequently</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="cta">
+    <section class="cta" id="cta">
         <div class="container cta-content">
-            <h2>Ready to Secure Your Server?</h2>
-            <p>Join thousands of Discord communities who trust SentryX to protect their servers. Get started today and experience enterprise-grade security for free.</p>
+            <h2>Secure Your Server Today</h2>
+            <p>Join the growing community of Discord servers protected by SentryX</p>
+            
+            <div class="pricing-info">
+                <p><i class="fas fa-star"></i> <strong>Free during launch</strong> - All core security features</p>
+                <p><i class="fas fa-gem"></i> Premium features coming soon for enhanced capabilities</p>
+            </div>
+            
             <div class="hero-btns">
                 <a href="#" class="btn primary-btn">Add to Discord <i class="fab fa-discord"></i></a>
-                <a href="#" class="btn secondary-btn">View Documentation <i class="fas fa-book"></i></a>
+                <a href="#" class="btn secondary-btn">Learn More <i class="fas fa-book"></i></a>
             </div>
         </div>
     </section>
@@ -672,16 +698,15 @@
     <footer>
         <div class="container footer-content">
             <div class="footer-logo">SENTRY<span style="color: #ff7675;">X</span></div>
-            <p>The most advanced security solution for Discord communities</p>
+            <p>Advanced security for Discord communities</p>
             
             <div class="social-links">
                 <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
                 <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
                 <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
             </div>
             
-            <p class="copyright">© 2025 SentryX. All rights reserved. Launching on July 6, 2025.</p>
+            <p class="copyright">© 2025 SentryX. Currently in launch phase. Official launch on July 6, 2025.</p>
         </div>
     </footer>
 
@@ -723,59 +748,27 @@
             retina_detect: true
         });
 
-        // Stats Counter Animation
-        const counters = document.querySelectorAll('.stat-number');
-        const speed = 200;
-        
-        const animateCounter = (counter, target, suffix) => {
-            let count = 0;
-            const updateCount = () => {
-                const increment = parseInt(target) / speed;
-                if (count < parseInt(target)) {
-                    count += increment;
-                    counter.innerHTML = Math.ceil(count) + suffix;
-                    setTimeout(updateCount, 10);
-                } else {
-                    counter.innerHTML = target + suffix;
-                }
-            };
-            updateCount();
-        };
-        
-        // Initialize counters when in view
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const counter = entry.target;
-                    const target = counter.getAttribute('data-target');
-                    const suffix = counter.getAttribute('data-suffix') || '';
-                    
-                    if (!counter.classList.contains('animated')) {
-                        counter.classList.add('animated');
-                        animateCounter(counter, target, suffix);
-                    }
-                }
-            });
-        }, { threshold: 0.5 });
-        
-        // Set data attributes for counters
-        document.getElementById('commands-counter').setAttribute('data-target', '16');
-        document.getElementById('code-counter').setAttribute('data-target', '4000');
-        document.getElementById('uptime-counter').setAttribute('data-target', '24/7');
-        document.getElementById('free-counter').setAttribute('data-target', '120');
-        document.getElementById('free-counter').setAttribute('data-suffix', '%');
-        
-        // Observe each counter
-        counters.forEach(counter => {
-            observer.observe(counter);
-        });
-
         // Feature Card Animation
         const featureCards = document.querySelectorAll('.feature-card');
         
         featureCards.forEach(card => {
             card.addEventListener('mouseenter', () => {
                 card.style.transform = 'translateY(-15px)';
+                card.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.3)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = 'none';
+            });
+        });
+
+        // Benefit Card Animation
+        const benefitCards = document.querySelectorAll('.benefit-card');
+        
+        benefitCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px)';
                 card.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.3)';
             });
             
@@ -806,6 +799,15 @@
                 header.style.boxShadow = 'none';
             }
         });
+
+        // Floating animation for hero text
+        const heroText = document.querySelector('.hero h1');
+        setInterval(() => {
+            heroText.style.transform = 'translateY(-5px)';
+            setTimeout(() => {
+                heroText.style.transform = 'translateY(5px)';
+            }, 1500);
+        }, 3000);
     </script>
 </body>
 </html>
