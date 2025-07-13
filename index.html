@@ -1,1668 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlockTop - Premium Minecraft Server Directory</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&family=Rubik:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --grass: #0DBF6A;
-            --diamond: #4A8FE7;
-            --nether: #FF5555;
-            --gold: #FFD700;
-            --lifesteal: #FF3366;
-            --smp: #8A2BE2;
-            --dark-bg: #0c0e17;
-            --card-bg: #1E1F29;
-            --text-light: #F0F0F0;
-            --text-muted: #A0A0A0;
-            --transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            --minecraft-green: #3a8c3a;
-            --minecraft-dark: #1e1b1b;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Rubik', sans-serif;
-            background: var(--dark-bg);
-            color: var(--text-light);
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(58, 140, 58, 0.1) 0%, transparent 25%),
-                radial-gradient(circle at 90% 80%, rgba(74, 143, 231, 0.1) 0%, transparent 25%),
-                radial-gradient(circle at 50% 50%, rgba(255, 51, 102, 0.05) 0%, transparent 30%),
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%231e1b1b"/><rect x="0" y="0" width="50" height="50" fill="%233a8c3a" opacity="0.05"/><rect x="50" y="50" width="50" height="50" fill="%233a8c3a" opacity="0.05"/></svg>');
-            min-height: 100vh;
-        }
-
-        /* Particle background */
-        #particle-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        /* Header & Navigation */
-        header {
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            background: rgba(12, 14, 23, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(74, 143, 231, 0.1);
-            transition: var(--transition);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .logo {
-            font-family: 'Oxanium', sans-serif;
-            font-weight: 700;
-            font-size: 1.8rem;
-            color: var(--minecraft-green);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logo span {
-            color: var(--diamond);
-        }
-
-        .logo i {
-            animation: pulse 2s infinite;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        nav a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-weight: 500;
-            position: relative;
-            padding: 0.5rem 0;
-            transition: var(--transition);
-        }
-
-        nav a:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--minecraft-green);
-            transition: var(--transition);
-        }
-
-        nav a:hover:after {
-            width: 100%;
-        }
-
-        nav a:hover {
-            color: var(--minecraft-green);
-        }
-
-        .search-container {
-            position: relative;
-            width: 250px;
-        }
-
-        .search-container input {
-            width: 100%;
-            padding: 0.8rem 1rem 0.8rem 3rem;
-            border-radius: 50px;
-            border: 1px solid rgba(74, 143, 231, 0.3);
-            background: rgba(30, 31, 41, 0.7);
-            color: var(--text-light);
-            font-family: inherit;
-            transition: var(--transition);
-        }
-
-        .search-container input:focus {
-            outline: none;
-            border-color: var(--diamond);
-            box-shadow: 0 0 15px rgba(74, 143, 231, 0.3);
-        }
-
-        .search-container i {
-            position: absolute;
-            left: 1.2rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--diamond);
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 5%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-content {
-            max-width: 900px;
-            z-index: 10;
-            margin-top: 3rem;
-        }
-
-        .hero h1 {
-            font-family: 'Oxanium', sans-serif;
-            font-size: 4.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 0 20px rgba(58, 140, 58, 0.5);
-            background: linear-gradient(to right, var(--minecraft-green), var(--diamond), var(--lifesteal));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: glow 3s infinite alternate;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
-            max-width: 700px;
-            margin: 0 auto 3rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: linear-gradient(45deg, var(--minecraft-green), var(--diamond));
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            border-radius: 50px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 5px 15px rgba(13, 191, 106, 0.4);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(13, 191, 106, 0.6);
-        }
-
-        .cta-button:after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: rgba(255, 255, 255, 0.1);
-            transform: rotate(30deg);
-            transition: var(--transition);
-        }
-
-        .cta-button:hover:after {
-            transform: rotate(30deg) translate(20%, 20%);
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--diamond);
-            animation: bounce 2s infinite;
-        }
-
-        .scroll-indicator i {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Featured Servers */
-        .featured-section {
-            padding: 5rem 5%;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-header h2 {
-            font-family: 'Oxanium', sans-serif;
-            font-size: 2.5rem;
-            color: var(--text-light);
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-header h2:after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background: var(--minecraft-green);
-            border-radius: 2px;
-        }
-
-        .filters {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            padding: 0.7rem 1.5rem;
-            background: rgba(30, 31, 41, 0.7);
-            border: 1px solid rgba(74, 143, 231, 0.3);
-            color: var(--text-light);
-            border-radius: 50px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 500;
-        }
-
-        .filter-btn:hover, .filter-btn.active {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .filter-btn[data-filter="all"]:hover,
-        .filter-btn[data-filter="all"].active {
-            background: linear-gradient(45deg, var(--diamond), var(--minecraft-green));
-            color: white;
-            border-color: transparent;
-        }
-
-        .filter-btn[data-filter="survival"]:hover,
-        .filter-btn[data-filter="survival"].active {
-            background: linear-gradient(45deg, var(--minecraft-green), #0a9e56);
-            color: white;
-            border-color: transparent;
-        }
-
-        .filter-btn[data-filter="pvp"]:hover,
-        .filter-btn[data-filter="pvp"].active {
-            background: linear-gradient(45deg, var(--nether), #cc0000);
-            color: white;
-            border-color: transparent;
-        }
-
-        .filter-btn[data-filter="lifesteal"]:hover,
-        .filter-btn[data-filter="lifesteal"].active {
-            background: linear-gradient(45deg, var(--lifesteal), #ff0066);
-            color: white;
-            border-color: transparent;
-        }
-
-        .filter-btn[data-filter="minigames"]:hover,
-        .filter-btn[data-filter="minigames"].active {
-            background: linear-gradient(45deg, var(--gold), #ffb300);
-            color: #000;
-            border-color: transparent;
-        }
-
-        .filter-btn[data-filter="publicsmp"]:hover,
-        .filter-btn[data-filter="publicsmp"].active {
-            background: linear-gradient(45deg, var(--smp), #6a0dad);
-            color: white;
-            border-color: transparent;
-        }
-
-        /* Server Cards Grid */
-        .servers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .server-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            overflow: hidden;
-            transition: var(--transition);
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transform: translateY(0) rotateX(0);
-            transform-style: preserve-3d;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .server-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(58, 140, 58, 0.2);
-            border-color: rgba(74, 143, 231, 0.3);
-        }
-
-        .card-banner {
-            height: 180px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card-banner img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-
-        .server-card:hover .card-banner img {
-            transform: scale(1.1);
-        }
-
-        .card-banner:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, transparent 60%, var(--card-bg));
-            z-index: 1;
-        }
-
-        .featured-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: linear-gradient(45deg, var(--gold), #ffb300);
-            color: #000;
-            font-weight: 600;
-            padding: 0.3rem 1rem;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            z-index: 2;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-        }
-
-        .server-status {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 0.3rem 0.8rem;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            z-index: 2;
-        }
-
-        .status-online {
-            color: var(--minecraft-green);
-        }
-
-        .status-offline {
-            color: var(--nether);
-        }
-
-        .status-indicator {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-
-        .online .status-indicator {
-            background: var(--minecraft-green);
-            box-shadow: 0 0 10px var(--minecraft-green);
-        }
-
-        .offline .status-indicator {
-            background: var(--nether);
-        }
-
-        .card-content {
-            padding: 1.5rem;
-        }
-
-        .server-name {
-            font-family: 'Oxanium', sans-serif;
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-light);
-        }
-
-        .server-description {
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .server-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .tag {
-            background: rgba(74, 143, 231, 0.15);
-            color: var(--diamond);
-            padding: 0.3rem 0.8rem;
-            border-radius: 50px;
-            font-size: 0.9rem;
-        }
-
-        .tag-pvp {
-            background: rgba(255, 85, 85, 0.15);
-            color: var(--nether);
-        }
-
-        .tag-survival {
-            background: rgba(58, 140, 58, 0.15);
-            color: var(--minecraft-green);
-        }
-
-        .tag-minigames {
-            background: rgba(255, 215, 0, 0.15);
-            color: var(--gold);
-        }
-
-        .tag-lifesteal {
-            background: rgba(255, 51, 102, 0.15);
-            color: var(--lifesteal);
-        }
-
-        .tag-publicsmp {
-            background: rgba(138, 43, 226, 0.15);
-            color: var(--smp);
-        }
-
-        .server-stats {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1.5rem;
-        }
-
-        .stat {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-            color: var(--text-light);
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .card-actions {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-        }
-
-        .vote-btn, .join-btn {
-            flex: 1;
-            padding: 0.8rem;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .vote-btn {
-            background: rgba(74, 143, 231, 0.15);
-            color: var(--diamond);
-            border: 1px solid rgba(74, 143, 231, 0.3);
-        }
-
-        .vote-btn:hover {
-            background: rgba(74, 143, 231, 0.3);
-            transform: translateY(-3px);
-        }
-
-        .join-btn {
-            background: linear-gradient(45deg, var(--minecraft-green), #0a9e56);
-            color: white;
-            border: none;
-        }
-
-        .join-btn:hover {
-            background: linear-gradient(45deg, #0a9e56, var(--minecraft-green));
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(58, 140, 58, 0.4);
-        }
-
-        /* Contact Section */
-        .contact-section {
-            padding: 5rem 5%;
-            background: rgba(10, 10, 15, 0.7);
-            border-top: 1px solid rgba(255,255,255,0.1);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .contact-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-        }
-
-        .contact-info {
-            padding: 2rem;
-            background: rgba(30, 31, 41, 0.5);
-            border-radius: 15px;
-        }
-
-        .contact-info h3 {
-            font-family: 'Oxanium', sans-serif;
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--minecraft-green);
-        }
-
-        .contact-methods {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .contact-method {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-        }
-
-        .contact-method i {
-            font-size: 1.5rem;
-            color: var(--diamond);
-            min-width: 40px;
-        }
-
-        .contact-method div h4 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-light);
-        }
-
-        .contact-method div p {
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        .contact-method div a {
-            color: var(--diamond);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .contact-method div a:hover {
-            color: var(--minecraft-green);
-            text-decoration: underline;
-        }
-
-        .advertise-section {
-            padding: 2rem;
-            background: rgba(30, 31, 41, 0.5);
-            border-radius: 15px;
-        }
-
-        .advertise-section h3 {
-            font-family: 'Oxanium', sans-serif;
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--gold);
-        }
-
-        .feature-list {
-            list-style: none;
-            margin: 1.5rem 0;
-        }
-
-        .feature-list li {
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 0.8rem;
-        }
-
-        .feature-list li i {
-            color: var(--minecraft-green);
-            font-size: 1.2rem;
-        }
-
-        .advertise-section .cta-button {
-            margin-top: 1rem;
-            width: 100%;
-        }
-
-        /* Footer */
-        footer {
-            background: rgba(10, 10, 15, 0.9);
-            padding: 4rem 5% 2rem;
-            margin-top: 5rem;
-            border-top: 1px solid rgba(74, 143, 231, 0.1);
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-column h3 {
-            font-family: 'Oxanium', sans-serif;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--diamond);
-        }
-
-        .footer-column ul {
-            list-style: none;
-        }
-
-        .footer-column li {
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-column a {
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .footer-column a:hover {
-            color: var(--minecraft-green);
-            padding-left: 5px;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(74, 143, 231, 0.1);
-            color: var(--diamond);
-            transition: var(--transition);
-        }
-
-        .social-links a:hover {
-            background: var(--diamond);
-            color: white;
-            transform: translateY(-5px);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Animations */
-        @keyframes glow {
-            0% {
-                text-shadow: 0 0 10px rgba(58, 140, 58, 0.5);
-            }
-            100% {
-                text-shadow: 0 0 30px rgba(58, 140, 58, 0.8), 0 0 40px rgba(74, 143, 231, 0.6);
-            }
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateX(-50%) translateY(0);
-            }
-            40% {
-                transform: translateX(-50%) translateY(-20px);
-            }
-            60% {
-                transform: translateX(-50%) translateY(-10px);
-            }
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                text-shadow: 0 0 5px rgba(58, 140, 58, 0.5);
-            }
-            50% {
-                transform: scale(1.1);
-                text-shadow: 0 0 15px rgba(58, 140, 58, 0.8);
-            }
-            100% {
-                transform: scale(1);
-                text-shadow: 0 0 5px rgba(58, 140, 58, 0.5);
-            }
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-            100% {
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 3.5rem;
-            }
-            
-            nav ul {
-                gap: 1.2rem;
-            }
-            
-            .contact-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            header {
-                flex-wrap: wrap;
-                gap: 1rem;
-                padding: 1rem;
-            }
-            
-            .logo {
-                order: 1;
-            }
-            
-            .search-container {
-                order: 3;
-                width: 100%;
-                margin-top: 1rem;
-            }
-            
-            nav {
-                order: 2;
-                width: 100%;
-            }
-            
-            nav ul {
-                justify-content: center;
-                gap: 0.8rem;
-                flex-wrap: wrap;
-            }
-            
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-            
-            .hero p {
-                font-size: 1.2rem;
-            }
-            
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1.5rem;
-            }
-            
-            .filters {
-                flex-wrap: wrap;
-            }
-            
-            .servers-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* Toast notification */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--diamond);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            z-index: 2000;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .toast.show {
-            opacity: 1;
-        }
-        
-        /* New server cards */
-        .server-card[data-tags="minigames"] {
-            border-top: 3px solid var(--gold);
-        }
-        
-        .server-card[data-tags="pvp"] {
-            border-top: 3px solid var(--nether);
-        }
-        
-        .server-card[data-tags="survival"] {
-            border-top: 3px solid var(--minecraft-green);
-        }
-        
-        .server-card[data-tags="lifesteal"] {
-            border-top: 3px solid var(--lifesteal);
-        }
-        
-        .server-card[data-tags="publicsmp"] {
-            border-top: 3px solid var(--smp);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SentryX Discord Bot – Invite Me Now!</title>
+  <link rel="icon" href="https://i.postimg.cc/jjhJPRFJ/Sentry-X-2.png">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap');
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #101123;
+      overflow: hidden;
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+    }
+    body {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .animated-bg {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: 100vw; height: 100vh;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    /* Glowing animated circles */
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: float 20s linear infinite;
+      background: radial-gradient(circle, #2d46ff 0%, #13152a 70%);
+    }
+    .circle1 { width: 400px; height: 400px; left: 8%; top: 10%; animation-delay: 0s;}
+    .circle2 { width: 300px; height: 300px; right: 10%; bottom: 8%; animation-delay: 4s;}
+    .circle3 { width: 200px; height: 200px; left: 60%; top: 60%; animation-delay: 8s;}
+    @keyframes float {
+      0% { transform: translateY(0) scale(1);}
+      50% { transform: translateY(-40px) scale(1.1);}
+      100% { transform: translateY(0) scale(1);}
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      background: rgba(17, 20, 36, 0.8);
+      border-radius: 32px;
+      box-shadow: 0 8px 40px 0 #2d46ff60, 0 0 0 2px #2d46ff60;
+      max-width: 480px;
+      padding: 48px 40px 40px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+      animation: fadeIn 1.2s cubic-bezier(.64,.09,.08,1) forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .logo {
+      width: 110px;
+      height: 110px;
+      border-radius: 30%;
+      background: linear-gradient(135deg, #2d46ff 0%, #6a81ff 100%);
+      box-shadow: 0 0 28px #2d46ff99, 0 2px 12px #0009;
+      padding: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: logoPulse 2.5s infinite alternate;
+    }
+    .logo img {
+      width: 100%;
+      height: 100%;
+      border-radius: 22%;
+      box-shadow: 0 0 0 4px #23264b;
+    }
+    @keyframes logoPulse {
+      0% { box-shadow: 0 0 28px #2d46ff99, 0 2px 12px #0009;}
+      100% { box-shadow: 0 0 48px #2d46ffcc, 0 2px 22px #000a;}
+    }
+    .title {
+      font-size: 2.2rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #6a81ff 10%, #2d46ff 70%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+      text-shadow: 0 2px 12px #2d46ff40;
+      animation: textPop .9s cubic-bezier(.66,.03,.47,.98) 1;
+    }
+    @keyframes textPop {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .desc {
+      font-size: 1.07rem;
+      color: #b5b8ff;
+      font-weight: 500;
+      line-height: 1.7;
+      text-align: center;
+      margin-bottom: 15px;
+      letter-spacing: 0.2px;
+      animation: fadeInDesc 1.5s 0.7s both;
+    }
+    @keyframes fadeInDesc {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .invite-btn {
+      display: inline-block;
+      background: linear-gradient(90deg, #2d46ff, #6a81ff 90%);
+      color: #fff;
+      font-size: 1.19rem;
+      font-weight: bold;
+      padding: 17px 40px;
+      border: none;
+      border-radius: 40px;
+      box-shadow: 0 0 16px #2d46ff80;
+      cursor: pointer;
+      outline: none;
+      letter-spacing: 1px;
+      transition: all .16s cubic-bezier(.79,.04,.41,1.19), box-shadow .24s;
+      margin-top: 8px;
+      position: relative;
+      overflow: hidden;
+      z-index: 2;
+      animation: fadeInBtn 1.1s 1s both;
+    }
+    @keyframes fadeInBtn {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .invite-btn:hover, .invite-btn:focus {
+      background: linear-gradient(90deg, #3d66ff 10%, #93aaff 100%);
+      box-shadow: 0 0 30px #2d46ffb7;
+      transform: scale(1.04);
+    }
+    /* Particle animation */
+    #particles-js {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      top: 0; left: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      .container {padding: 30px 10px;}
+      .title { font-size: 1.5rem;}
+    }
+  </style>
 </head>
 <body>
-    <!-- Particle Background -->
-    <canvas id="particle-canvas"></canvas>
-
-    <!-- Header -->
-    <header>
-        <a href="#" class="logo"><i class="fas fa-cube"></i> Block<span>Top</span></a>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#featured-servers">Top Servers</a></li>
-                <li><a href="#categories">Categories</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="#advertise">Advertise</a></li>
-            </ul>
-        </nav>
-        <div class="search-container">
-            <i class="fas fa-search"></i>
-            <input type="text" id="server-search" placeholder="Search servers...">
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Discover Amazing Minecraft Servers</h1>
-            <p>Find the perfect Minecraft server for your playstyle. Thousands of unique communities across all game modes.</p>
-            <a href="#featured-servers" class="cta-button">Explore Servers</a>
-        </div>
-        <div class="scroll-indicator">
-            <i class="fas fa-chevron-down"></i>
-            <span>Scroll to Discover</span>
-        </div>
-    </section>
-
-    <!-- Featured Servers Section -->
-    <section id="featured-servers" class="featured-section">
-        <div class="section-header">
-            <h2>Top Rated Servers</h2>
-            <div class="filters">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="survival">Survival</button>
-                <button class="filter-btn" data-filter="pvp">PvP</button>
-                <button class="filter-btn" data-filter="lifesteal">Lifesteal</button>
-                <button class="filter-btn" data-filter="minigames">Minigames</button>
-                <button class="filter-btn" data-filter="publicsmp">Public SMP</button>
-            </div>
-        </div>
-        
-        <div class="servers-grid" id="servers-container">
-            <!-- Survival Servers -->
-            <div class="server-card" data-tags="survival">
-                <div class="card-banner">
-                    <img src="https://images.unsplash.com/photo-1607799279861-4dd421887fb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="MineSuperior Server">
-                    <div class="featured-badge">FEATURED</div>
-                    <div class="server-status online">
-                        <div class="status-indicator"></div>
-                        <span class="status-online">Online</span>
-                    </div>
-                </div>
-                <div class="card-content">
-                    <h3 class="server-name">MineSuperior</h3>
-                    <p class="server-description">Experience the ultimate survival server with economy, factions and custom enchantments.</p>
-                    <div class="server-tags">
-                        <span class="tag tag-survival">Survival</span>
-                        <span class="tag">Economy</span>
-                        <span class="tag">Factions</span>
-                    </div>
-                    <div class="server-stats">
-                        <div class="stat">
-                            <div class="stat-value">8,220</div>
-                            <div class="stat-label">Votes</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">2.1K</div>
-                            <div class="stat-label">Online</div>
-                        </div>
-                    </div>
-                    <div class="card-actions">
-                        <button class="vote-btn" data-id="2"><i class="fas fa-heart"></i> Vote</button>
-                        <button class="join-btn"><i class="fas fa-play"></i> Join Now</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="server-card" data-tags="survival">
-                <div class="card-banner">
-                    <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Applemc Server">
-                    <div class="server-status online">
-                        <div class="status-indicator"></div>
-                        <span class="status-online">Online</span>
-                    </div>
-                </div>
-                <div class="card-content">
-                    <h3 class="server-name">Applemc</h3>
-                    <p class="server-description">Fresh survival experience with unique economy systems and custom mobs.</p>
-                    <div class="server-tags">
-                        <span class="tag tag-survival">Survival</span>
-                        <span class="tag">Economy</span>
-                        <span class="tag">Custom Mobs</span>
-                    </div>
-                    <div class="server-stats">
-                        <div class="stat">
-                            <div class="stat-value">3,210</div>
-                            <div class="stat-label">Votes</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">1.4K</div>
-                            <div class="stat-label">Online</div>
-                        </div>
-                    </div>
-                    <div class="card-actions">
-                        <button class="vote-btn" data-id="4"><i class="fas fa-heart"></i> Vote</button>
-                        <button class="join-btn"><i class="fas fa-play"></i> Join Now</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- PvP Servers -->
-            <div class="server-card" data-tags="pvp">
-                <div class="card-banner">
-                    <img src="https://images.unsplash.com/photo-1504297050558-0280a911e1b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Purple Prison Server">
-                    <div class="server-status online">
-                        <div class="status-indicator"></div>
-                        <span class="status-online">Online</span>
-                    </div>
-                </div>
-                <div class="card-content">
-                    <h3 class="server-name">Purple Prison</h3>
-                    <p class="server-description">The most popular prison server with OP ranks, PvP arenas and custom enchants.</p>
-                    <div class="server-tags">
-                        <span class="tag">Prison</span>
-                        <span class="tag tag-pvp">PvP</span>
-                        <span class="tag">Economy</span>
-                    </div>
-                    <div class="server-stats">
-                        <div class="stat">
-                            <div class="stat-value">4,950</div>
-                            <div class="stat-label">Votes</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">800</div>
-                            <div class="stat-label">Online</div>
-                        </div>
-                    </div>
-                    <div class="card-actions">
-                        <button class="vote-btn" data-id="3"><i class="fas fa-heart"></i> Vote</button>
-                        <button class="join-btn"><i class="fas fa-play"></i> Join Now</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="server-card" data-tags="pvp">
-                <div class="card-banner">
-                    <img src="https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Fatalmc Server">
-                    <div class="server-status online">
-                        <div class="status-indicator"></div>
-                        <span class="status-online">Online</span>
-                    </div>
-                </div>
-                <div class="card-content">
-                    <h3 class="server-name">Fatalmc</h3>
-                    <p class="server-description">Hardcore PvP server with competitive leaderboards and tournaments.</p>
-                    <div class="server-tags">
-                        <span class="tag tag-pvp">PvP</span>
-                        <span class="tag">Hardcore</span>
-                        <span class="tag">Tournaments</span>
-                    </div>
-                    <div class="server-stats">
-                        <div class="stat">
-                            <div class="stat-value">3,890</div>
-                            <div class="stat-label">Votes</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">1.2K</div>
-                            <div class="stat-label">Online</div>
-                        </div>
-                    </div>
-                    <div class="card-actions">
-                        <button class="vote-btn" data-id="7"><i class="fas fa-heart"></i> Vote</button>
-                        <button class="join-btn"><i class="fas fa-play"></i> Join Now</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Lifesteal Servers -->
-            <div class="server-card" data-tags="lifesteal">
-                <div class="card-banner">
-                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Lifesteal Server">
-                    <div class="featured-badge">POPULAR</div>
-                    <div class="server-status online">
-                        <div class="status-indicator"></div>
-                        <span class="status-online">Online</span>
-                    </div>
-                </div>
-                <div class="card-content">
-                    <h3 class="server-name">HeartSteal</h3>
-                    <p class="server-description">Intense lifesteal gameplay with health-based economy and unique mechanics.</p>
-                    <div class="server-tags">
-                        <span class="tag tag-lifesteal">Lifesteal</span>
-                        <span class="tag tag-pvp">PvP</span>
-                        <span class="tag">Hardcore</span>
-                    </div>
-                    <div class="server-stats">
-                        <div class="stat">
-                            <div class="stat-value">5,670</div>
-                            <div class="stat-label">Votes</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">1.8K</div>
-                            <div class="stat-label">Online</div>
-                        </div>
-                    </div>
-                    <div class="card-actions">
-                        <button class="vote-btn" data-id="9"><i class="fas fa-heart"></i> Vote</button>
-                        <button class="join-btn"><i class="fas fa-play"></i> Join Now</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Minigames Servers -->
-            <div class="server-card" data-tags="minigames">
-                <div class="card-banner">
-                    <img src="https://images.unsplash.com/photo-1560969184-10fe8719e047?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Hypixel Server">
-                    <div class="featured-badge">FEATURED</div>
-                    <div class="server-status online">
-                        <div class="status-indicator"></div>
-                        <span class="status-online">Online</span>
-                    </div>
-                </div>
-                <div class="card-content">
-                    <h3 class="server-name">Hypixel Network</h3>
-                    <p class="server-description">The largest Minecraft server with over 20 unique minigames and constant updates.</p>
-                    <div class="server-tags">
-                        <span class="tag tag-minigames">Minigames</span>
-                        <span class="tag tag-pvp">PvP</span>
-                        <span class="tag">BedWars</span>
-                        <span class="tag">Ranked</span>
-                    </div>
-                    <div class="server-stats">
-                        <div class="stat">
-                            <div class="stat-value">25,401</div>
-                            <div class="stat-label">Votes</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">12.5K</div>
-                            <div class="stat-label">Online</div>
-                        </div>
-                    </div>
-                    <div class="card-actions">
-                        <button class="vote-btn" data-id="1"><i class="fas fa-heart"></i> Vote</button>
-                        <button class="join-btn"><i class="fas fa-play"></i> Join Now</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="server-card" data-tags="minigames">
-                <div class="card-banner">
-                    <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Blockfun Server">
-                    <div class="server-status online">
-                        <div class="status-indicator"></div>
-                        <span class="status-online">Online</span>
-                    </div>
-                </div>
-                <div class="card-content">
-                    <h3 class="server-name">Blockfun</h3>
-                    <p class="server-description">Family-friendly minigames server with creative challenges and weekly events.</p>
-                    <div class="server-tags">
-                        <span class="tag tag-minigames">Minigames</span>
-                        <span class="tag">Creative</span>
-                        <span class="tag">Events</span>
-                    </div>
-                    <div class="server-stats">
-                        <div class="stat">
-                            <div class="stat-value">2,870</div>
-                            <div class="stat-label">Votes</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">950</div>
-                            <div class="stat-label">Online</div>
-                        </div>
-                    </div>
-                    <div class="card-actions">
-                        <button class="vote-btn" data-id="5"><i class="fas fa-heart"></i> Vote</button>
-                        <button class="join-btn"><i class="fas fa-play"></i> Join Now</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="server-card" data-tags="minigames">
-                <div class="card-banner">
-                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="MCfleet Server">
-                    <div class="server-status online">
-                        <div class="status-indicator"></div>
-                        <span class="status-online">Online</span>
-                    </div>
-                </div>
-                <div class="card-content">
-                    <h3 class="server-name">MCfleet</h3>
-                    <p class="server-description">Fast-paced minigames with survival elements and custom game modes.</p>
-                    <div class="server-tags">
-                        <span class="tag tag-minigames">Minigames</span>
-                        <span class="tag">Fast Paced</span>
-                        <span class="tag">Custom Modes</span>
-                    </div>
-                    <div class="server-stats">
-                        <div class="stat">
-                            <div class="stat-value">2,650</div>
-                            <div class="stat-label">Votes</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">850</div>
-                            <div class="stat-label">Online</div>
-                        </div>
-                    </div>
-                    <div class="card-actions">
-                        <button class="vote-btn" data-id="8"><i class="fas fa-heart"></i> Vote</button>
-                        <button class="join-btn"><i class="fas fa-play"></i> Join Now</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Public SMP Servers -->
-            <div class="server-card" data-tags="publicsmp">
-                <div class="card-banner">
-                    <img src="https://images.unsplash.com/photo-1563089145-599997674d42?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Community SMP Server">
-                    <div class="featured-badge">NEW</div>
-                    <div class="server-status online">
-                        <div class="status-indicator"></div>
-                        <span class="status-online">Online</span>
-                    </div>
-                </div>
-                <div class="card-content">
-                    <h3 class="server-name">Community SMP</h3>
-                    <p class="server-description">Friendly public survival multiplayer with community events and economy.</p>
-                    <div class="server-tags">
-                        <span class="tag tag-publicsmp">Public SMP</span>
-                        <span class="tag tag-survival">Survival</span>
-                        <span class="tag">Community</span>
-                    </div>
-                    <div class="server-stats">
-                        <div class="stat">
-                            <div class="stat-value">3,420</div>
-                            <div class="stat-label">Votes</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">1.3K</div>
-                            <div class="stat-label">Online</div>
-                        </div>
-                    </div>
-                    <div class="card-actions">
-                        <button class="vote-btn" data-id="6"><i class="fas fa-heart"></i> Vote</button>
-                        <button class="join-btn"><i class="fas fa-play"></i> Join Now</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Additional Servers -->
-            <div class="server-card" data-tags="survival,publicsmp">
-                <div class="card-banner">
-                    <img src="https://images.unsplash.com/photo-1586810724476-c294d56426f9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="FireMC Server">
-                    <div class="server-status online">
-                        <div class="status-indicator"></div>
-                        <span class="status-online">Online</span>
-                    </div>
-                </div>
-                <div class="card-content">
-                    <h3 class="server-name">FireMC</h3>
-                    <p class="server-description">Adventure-filled server with lifesteal mechanics and exciting events.</p>
-                    <div class="server-tags">
-                        <span class="tag tag-survival">Survival</span>
-                        <span class="tag tag-lifesteal">Lifesteal</span>
-                        <span class="tag">Adventure</span>
-                        <span class="tag">Events</span>
-                    </div>
-                    <div class="server-stats">
-                        <div class="stat">
-                            <div class="stat-value">4,320</div>
-                            <div class="stat-label">Votes</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">1.1K</div>
-                            <div class="stat-label">Online</div>
-                        </div>
-                    </div>
-                    <div class="card-actions">
-                        <button class="vote-btn" data-id="10"><i class="fas fa-heart"></i> Vote</button>
-                        <button class="join-btn"><i class="fas fa-play"></i> Join Now</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="server-card" data-tags="pvp,lifesteal">
-                <div class="card-banner">
-                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="UniversalMC Server">
-                    <div class="server-status online">
-                        <div class="status-indicator"></div>
-                        <span class="status-online">Online</span>
-                    </div>
-                </div>
-                <div class="card-content">
-                    <h3 class="server-name">UniversalMC</h3>
-                    <p class="server-description">Cross-play server with economy, kit PvP, lifesteal mechanics and more.</p>
-                    <div class="server-tags">
-                        <span class="tag tag-lifesteal">Lifesteal</span>
-                        <span class="tag tag-pvp">PvP</span>
-                        <span class="tag">Economy</span>
-                        <span class="tag">Cross-Play</span>
-                    </div>
-                    <div class="server-stats">
-                        <div class="stat">
-                            <div class="stat-value">3,780</div>
-                            <div class="stat-label">Votes</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">980</div>
-                            <div class="stat-label">Online</div>
-                        </div>
-                    </div>
-                    <div class="card-actions">
-                        <button class="vote-btn" data-id="11"><i class="fas fa-heart"></i> Vote</button>
-                        <button class="join-btn"><i class="fas fa-play"></i> Join Now</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact & Advertise Section -->
-    <section id="contact" class="contact-section">
-        <div class="contact-container">
-            <div class="contact-info">
-                <h3>Contact Us</h3>
-                <div class="contact-methods">
-                    <div class="contact-method">
-                        <i class="fas fa-envelope"></i>
-                        <div>
-                            <h4>Email Support</h4>
-                            <p>Have a question? Our support team is ready to help you.</p>
-                            <a href="mailto:support@blocktop.com">support@blocktop.com</a>
-                        </div>
-                    </div>
-                    <div class="contact-method">
-                        <i class="fab fa-discord"></i>
-                        <div>
-                            <h4>Discord Community</h4>
-                            <p>Join our Discord server to chat with other players and get support.</p>
-                            <a href="https://discord.gg/blocktop" target="_blank">discord.gg/blocktop</a>
-                        </div>
-                    </div>
-                    <div class="contact-method">
-                        <i class="fas fa-comments"></i>
-                        <div>
-                            <h4>Live Chat</h4>
-                            <p>Get instant help from our support team via live chat (available 24/7).</p>
-                            <a href="#">Start Live Chat</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="advertise" class="advertise-section">
-                <h3>Advertise Your Server</h3>
-                <p>Reach thousands of Minecraft players daily by advertising your server on BlockTop. We offer premium advertising spots that guarantee visibility and player engagement.</p>
-                
-                <h4>Features We Offer:</h4>
-                <ul class="feature-list">
-                    <li><i class="fas fa-check-circle"></i> Featured placement on our homepage</li>
-                    <li><i class="fas fa-check-circle"></i> Dedicated server spotlight section</li>
-                    <li><i class="fas fa-check-circle"></i> Detailed analytics and performance reports</li>
-                    <li><i class="fas fa-check-circle"></i> Priority support for advertisers</li>
-                    <li><i class="fas fa-check-circle"></i> Social media promotion across our channels</li>
-                </ul>
-                
-                <p>Get started by joining our Discord server and creating a ticket, or email us at <a href="mailto:ads@blocktop.com">ads@blocktop.com</a> for advertising inquiries.</p>
-                
-                <button class="cta-button">Advertise With Us</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>BlockTop</h3>
-                <p>The ultimate Minecraft server directory. Find, compare, and join the best Minecraft servers worldwide.</p>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-discord"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                    <a href="#"><i class="fab fa-reddit"></i></a>
-                </div>
-            </div>
-            <div class="footer-column">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#featured-servers">Top Servers</a></li>
-                    <li><a href="#categories">Server Categories</a></li>
-                    <li><a href="#">Server Status</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Resources</h3>
-                <ul>
-                    <li><a href="#">Minecraft News</a></li>
-                    <li><a href="#">Server Hosting</a></li>
-                    <li><a href="#">Minecraft Mods</a></li>
-                    <li><a href="#">Community Forums</a></li>
-                    <li><a href="#contact">Support Center</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Newsletter</h3>
-                <p>Subscribe to get updates on new servers and Minecraft news.</p>
-                <div class="search-container" style="width:100%; margin-top:1rem;">
-                    <input type="text" placeholder="Your email address">
-                </div>
-                <button class="cta-button" style="margin-top:1rem; width:100%;">Subscribe</button>
-            </div>
-        </div>
-        <div class="copyright">
-            &copy; 2025 BlockTop - Minecraft Server Directory. Not affiliated with Mojang or Microsoft.
-        </div>
-    </footer>
-
-    <!-- Toast Notification -->
-    <div class="toast" id="toast"></div>
-
-    <script>
-        // Particle background
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        
-        const particles = [];
-        const particleCount = 100;
-        
-        // Minecraft-themed color palette
-        const colors = [
-            'rgba(58, 140, 58, 0.8)',   // minecraft green
-            'rgba(74, 143, 231, 0.8)',   // blue
-            'rgba(160, 82, 45, 0.8)',    // brown (dirt)
-            'rgba(255, 215, 0, 0.8)',    // gold
-            'rgba(255, 85, 85, 0.8)',     // red
-            'rgba(138, 43, 226, 0.8)'     // violet
-        ];
-        
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 3 + 1;
-                this.speedX = Math.random() * 1 - 0.5;
-                this.speedY = Math.random() * 1 - 0.5;
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-            }
-            
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                
-                if (this.x < 0 || this.x > canvas.width) this.speedX = -this.speedX;
-                if (this.y < 0 || this.y > canvas.height) this.speedY = -this.speedY;
-            }
-            
-            draw() {
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
+  <!-- Animated background elements -->
+  <div class="animated-bg">
+    <div class="circle circle1"></div>
+    <div class="circle circle2"></div>
+    <div class="circle circle3"></div>
+  </div>
+  <!-- Particles JS -->
+  <div id="particles-js"></div>
+  <!-- Main container -->
+  <div class="container">
+    <div class="logo">
+      <img src="https://i.postimg.cc/jjhJPRFJ/Sentry-X-2.png" alt="SentryX Logo">
+    </div>
+    <div class="title">SentryX</div>
+    <div class="desc">
+      Meet <b>SentryX</b> – your all-in-one, premium Discord bot.<br>
+      <span style="color:#84f8fe">Security</span> | <span style="color:#ffe38a">AutoMod</span> | <span style="color:#f58fff">Logging</span> | <span style="color:#ff888b">Giveaways</span><br>
+      <span style="color:#9cffb0">Professional. Simple. Powerful.</span>
+      <br><br>
+      <span style="color:#fafafa; font-weight:700; font-size:1.05em;">Now Public!</span>
+    </div>
+    <a href="https://discord.com/oauth2/authorize?client_id=1393914240263389225&permissions=8&scope=bot%20applications.commands" target="_blank" class="invite-btn">
+      🚀 Invite Me Now
+    </a>
+  </div>
+  <!-- Particles.js (for animated particle effect) -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    // Custom Particles.js config
+    particlesJS("particles-js", {
+      "particles": {
+        "number": { "value": 56, "density": { "enable": true, "value_area": 1000 } },
+        "color": { "value": ["#2d46ff", "#84f8fe", "#f58fff", "#9cffb0"] },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.30, "random": true },
+        "size": { "value": 7, "random": true },
+        "line_linked": { "enable": false },
+        "move": {
+          "enable": true,
+          "speed": 1.1,
+          "direction": "none",
+          "random": true,
+          "straight": false,
+          "out_mode": "out"
         }
-        
-        function initParticles() {
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { "enable": true, "mode": "repulse" },
+          "onclick": { "enable": false }
+        },
+        "modes": {
+          "repulse": { "distance": 90, "duration": 0.5 }
         }
-        
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-                
-                // Connect particles
-                for (let j = i; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 100) {
-                        ctx.beginPath();
-                        ctx.strokeStyle = `rgba(200, 200, 255, ${0.1 * (1 - distance/100)})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-            
-            requestAnimationFrame(animateParticles);
-        }
-        
-        initParticles();
-        animateParticles();
-        
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-        
-        // Server card hover effect enhancement
-        const serverCards = document.querySelectorAll('.server-card');
-        
-        serverCards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const cardRect = card.getBoundingClientRect();
-                const x = e.clientX - cardRect.left;
-                const y = e.clientY - cardRect.top;
-                
-                const centerX = cardRect.width / 2;
-                const centerY = cardRect.height / 2;
-                
-                const angleY = (x - centerX) / 25;
-                const angleX = (centerY - y) / 25;
-                
-                card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) translateY(-15px)`;
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
-            });
-        });
-        
-        // Vote button animation
-        const voteButtons = document.querySelectorAll('.vote-btn');
-        
-        voteButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const votesElement = this.closest('.server-card').querySelector('.stat-value');
-                let votes = parseInt(votesElement.textContent.replace(/,/g, ''));
-                votes += 1;
-                votesElement.textContent = votes.toLocaleString();
-                
-                showToast('Vote counted! Thanks for your support!');
-            });
-        });
-        
-        // Toast notification function
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-        
-        // Server filtering functionality
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        const serverCardsAll = document.querySelectorAll('.server-card');
-        
-        filterButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                // Remove active class from all buttons
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                
-                // Add active class to clicked button
-                this.classList.add('active');
-                
-                const filter = this.getAttribute('data-filter');
-                
-                // Filter server cards
-                serverCardsAll.forEach(card => {
-                    if (filter === 'all') {
-                        card.style.display = 'block';
-                    } else {
-                        const tags = card.getAttribute('data-tags').split(',');
-                        if (tags.includes(filter)) {
-                            card.style.display = 'block';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    }
-                });
-            });
-        });
-        
-        // Search functionality
-        const searchInput = document.getElementById('server-search');
-        
-        searchInput.addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase().trim();
-            
-            if (searchTerm === '') {
-                serverCardsAll.forEach(card => {
-                    card.style.display = 'block';
-                });
-                return;
-            }
-            
-            serverCardsAll.forEach(card => {
-                const name = card.querySelector('.server-name').textContent.toLowerCase();
-                const description = card.querySelector('.server-description').textContent.toLowerCase();
-                const tags = card.querySelector('.server-tags').textContent.toLowerCase();
-                
-                if (name.includes(searchTerm) || 
-                    description.includes(searchTerm) || 
-                    tags.includes(searchTerm)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-        
-        // Join button functionality
-        const joinButtons = document.querySelectorAll('.join-btn');
-        
-        joinButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const serverName = this.closest('.server-card').querySelector('.server-name').textContent;
-                showToast(`Connecting to ${serverName}...`);
-            });
-        });
-        
-        // CTA button scroll to servers
-        document.querySelector('.cta-button').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.querySelector('.featured-section').scrollIntoView({ 
-                behavior: 'smooth' 
-            });
-        });
-        
-        // Smooth scrolling for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
+      },
+      "retina_detect": true
+    });
+  </script>
 </body>
 </html>
+
