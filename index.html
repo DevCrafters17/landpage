@@ -2,47 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SentryX Discord Bot – Invite, Team & Socials</title>
+  <title>SentryX Discord Bot - Official Website</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="https://i.postimg.cc/jjhJPRFJ/Sentry-X-2.png">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;900&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --main: #2d46ff;
+      --accent: #6a81ff;
+      --background: #101123;
+      --card: rgba(25, 30, 55, 0.91);
+      --glass: rgba(22, 25, 44, 0.78);
+      --shadow: 0 8px 48px 0 #2d46ff60, 0 0 0 2px #2d46ff2c;
+      --radius: 28px;
+    }
     html, body {
       margin: 0;
       padding: 0;
-      width: 100vw;
       min-height: 100vh;
-      background: #101123;
+      width: 100vw;
+      box-sizing: border-box;
       font-family: 'Montserrat', sans-serif;
+      background: var(--background);
       overflow-x: hidden;
     }
-    body {
-      position: relative;
-      z-index: 0;
-    }
-    /* Navbar */
+    /* NAVBAR */
     .navbar {
       width: 100%;
-      padding: 0 0 0 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: fixed;
+      background: rgba(13,17,34,0.82);
+      box-shadow: 0 2px 20px #2d46ff15;
+      backdrop-filter: blur(6px);
+      position: sticky;
       top: 0;
       left: 0;
-      z-index: 100;
-      background: rgba(13,17,34,0.85);
-      box-shadow: 0 2px 16px #2d46ff10;
-      backdrop-filter: blur(6px);
-      transition: background 0.4s;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
     }
     .navbar-inner {
-      max-width: 900px;
+      max-width: 1080px;
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 8px 26px;
+      padding: 8px 30px;
     }
     .navbar-logo {
       display: flex;
@@ -60,14 +63,14 @@
     .navbar-logo span {
       font-size: 1.3rem;
       font-weight: 900;
-      color: #6a81ff;
+      color: var(--accent);
       letter-spacing: 1px;
-      text-shadow: 0 2px 8px #2d46ff50;
+      text-shadow: 0 2px 8px #2d46ff40;
       margin-left: 4px;
     }
     .nav-links {
       display: flex;
-      gap: 18px;
+      gap: 24px;
     }
     .nav-link {
       color: #c1c9ff;
@@ -76,209 +79,181 @@
       text-decoration: none;
       background: none;
       border: none;
-      padding: 7px 14px;
+      padding: 7px 16px;
       border-radius: 24px;
       cursor: pointer;
       outline: none;
       transition: color .17s, background .21s, transform .2s;
     }
     .nav-link.active, .nav-link:hover {
-      background: linear-gradient(90deg, #2d46ff 20%, #6a81ff 90%);
+      background: linear-gradient(90deg, var(--main) 20%, var(--accent) 90%);
       color: #fff;
       transform: scale(1.06);
-      box-shadow: 0 2px 12px #2d46ff80;
+      box-shadow: 0 2px 12px #2d46ff60;
     }
-
-    /* Animated background circles */
-    .animated-bg {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      z-index: 0;
-      overflow: hidden;
-      pointer-events: none;
-    }
-    .circle {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.3;
-      animation: float 23s linear infinite;
-      background: radial-gradient(circle, #2d46ff 0%, #13152a 70%);
-    }
-    .circle1 { width: 480px; height: 480px; left: 8%; top: 9%; animation-delay: 0s;}
-    .circle2 { width: 350px; height: 350px; right: 6%; bottom: 14%; animation-delay: 4s;}
-    .circle3 { width: 250px; height: 250px; left: 65%; top: 67%; animation-delay: 8s;}
-    @keyframes float {
-      0% { transform: translateY(0) scale(1);}
-      50% { transform: translateY(-38px) scale(1.08);}
-      100% { transform: translateY(0) scale(1);}
-    }
-    #particles-js {
-      position: fixed;
-      width: 100vw;
-      height: 100vh;
-      top: 0; left: 0;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    /* Section containers */
-    .main-section {
-      min-height: 100vh;
-      width: 100vw;
+    /* HERO SECTION */
+    .hero-section {
+      position: relative;
+      min-height: 95vh;
+      width: 100%;
       display: flex;
-      align-items: center;
       justify-content: center;
-      padding-top: 74px;
-      position: absolute;
-      left: 0; top: 0;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.7s cubic-bezier(.72,.03,.43,.96), filter .4s;
-      filter: blur(12px);
-      z-index: 3;
+      align-items: center;
+      padding: 100px 0 70px 0;
+      background: transparent;
+      z-index: 1;
+      overflow: visible;
     }
-    .main-section.active {
-      opacity: 1;
-      pointer-events: auto;
-      filter: blur(0);
-      transition: opacity 0.7s cubic-bezier(.72,.03,.43,.96), filter .5s;
-    }
-
-    /* Home Page */
-    .container {
-      background: rgba(17, 20, 36, 0.84);
-      border-radius: 34px;
-      box-shadow: 0 8px 48px 0 #2d46ff90, 0 0 0 2px #2d46ff50;
-      max-width: 490px;
-      padding: 56px 48px 44px 48px;
+    .hero-content {
+      background: var(--glass);
+      border-radius: 42px;
+      box-shadow: var(--shadow);
+      padding: 58px 56px 52px 56px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 32px;
-      animation: fadeIn 1.2s cubic-bezier(.64,.09,.08,1) forwards;
+      text-align: center;
+      gap: 34px;
+      max-width: 510px;
+      width: 96vw;
+      animation: fadeIn 1.2s cubic-bezier(.64,.09,.08,1) both;
     }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(40px);}
+      from { opacity: 0; transform: translateY(38px);}
       to { opacity: 1; transform: translateY(0);}
     }
-    .logo {
-      width: 116px;
-      height: 116px;
+    .hero-logo {
+      width: 120px;
+      height: 120px;
       border-radius: 32%;
-      background: linear-gradient(135deg, #2d46ff 0%, #6a81ff 100%);
+      background: linear-gradient(135deg, var(--main) 0%, var(--accent) 100%);
       box-shadow: 0 0 32px #2d46ff99, 0 2px 14px #0007;
-      padding: 7px;
+      padding: 9px;
+      margin-bottom: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
       animation: logoPulse 2.5s infinite alternate;
     }
-    .logo img {
+    .hero-logo img {
       width: 100%;
       height: 100%;
       border-radius: 22%;
       box-shadow: 0 0 0 4px #23264b;
     }
     @keyframes logoPulse {
-      0% { box-shadow: 0 0 28px #2d46ff88, 0 2px 12px #0009;}
-      100% { box-shadow: 0 0 60px #2d46ffcc, 0 2px 20px #000a;}
+      0% { box-shadow: 0 0 22px #2d46ff99, 0 2px 12px #0009;}
+      100% { box-shadow: 0 0 48px #2d46ffcc, 0 2px 22px #000a;}
     }
-    .title {
-      font-size: 2.5rem;
+    .hero-title {
+      font-size: 2.6rem;
       font-weight: 900;
-      letter-spacing: 2px;
-      background: linear-gradient(90deg, #6a81ff 10%, #2d46ff 70%);
+      background: linear-gradient(90deg, var(--accent) 20%, var(--main) 70%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 8px;
+      margin-bottom: 0;
+      letter-spacing: 2px;
       text-shadow: 0 2px 16px #2d46ff40;
-      animation: textPop .9s cubic-bezier(.66,.03,.47,.98) 1;
     }
-    @keyframes textPop {
-      from { transform: scale(0.96); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-    .desc {
-      font-size: 1.12rem;
-      color: #b5b8ff;
+    .hero-desc {
+      font-size: 1.21rem;
+      color: #e0e6ff;
       font-weight: 500;
-      line-height: 1.8;
+      line-height: 1.85;
+      margin-bottom: 10px;
       text-align: center;
-      margin-bottom: 16px;
-      letter-spacing: 0.1px;
+      letter-spacing: .05em;
       animation: fadeInDesc 1.5s 0.6s both;
     }
-    @keyframes fadeInDesc {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    @keyframes fadeInDesc { from { opacity: 0; } to { opacity: 1; } }
+    .hero-features {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 7px;
+    }
+    .hero-feature {
+      background: linear-gradient(90deg, #2d46ff40 60%, #6a81ff33 100%);
+      border-radius: 20px;
+      padding: 7px 18px;
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 600;
+      box-shadow: 0 0 8px #2d46ff15;
+      margin-bottom: 4px;
+      letter-spacing: 0.1em;
+      transition: background 0.3s;
+      border: 1.5px solid #2d46ff35;
+      text-shadow: 0 1.5px 7px #2d46ff30;
+    }
+    .hero-cta {
+      margin-top: 12px;
     }
     .invite-btn {
-      background: linear-gradient(90deg, #2d46ff, #6a81ff 90%);
+      background: linear-gradient(90deg, var(--main), var(--accent) 90%);
       color: #fff;
-      font-size: 1.15rem;
+      font-size: 1.19rem;
       font-weight: bold;
       padding: 17px 44px;
       border: none;
       border-radius: 40px;
-      box-shadow: 0 0 18px #2d46ff70;
+      box-shadow: 0 0 18px #2d46ff80;
       cursor: pointer;
       outline: none;
       letter-spacing: 1px;
-      transition: all .16s cubic-bezier(.79,.04,.41,1.19), box-shadow .23s;
-      margin-top: 10px;
+      margin-top: 8px;
       position: relative;
       overflow: hidden;
       z-index: 2;
+      transition: all .16s cubic-bezier(.79,.04,.41,1.19), box-shadow .24s;
       animation: fadeInBtn 1.1s 1s both;
-    }
-    @keyframes fadeInBtn {
-      from { opacity: 0; transform: translateY(40px);}
-      to { opacity: 1; transform: translateY(0);}
     }
     .invite-btn:hover, .invite-btn:focus {
       background: linear-gradient(90deg, #3d66ff 10%, #93aaff 100%);
       box-shadow: 0 0 38px #2d46ffb7;
       transform: scale(1.045);
     }
-
-    /* Team Page */
-    .team-container {
-      background: rgba(20, 25, 44, 0.93);
-      border-radius: 30px;
-      box-shadow: 0 8px 38px 0 #2d46ff50, 0 0 0 2px #2d46ff35;
-      max-width: 700px;
-      padding: 44px 30px 38px 30px;
+    @keyframes fadeInBtn {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    /* FEATURES SECTION */
+    .features-section {
+      max-width: 950px;
+      margin: 70px auto 40px auto;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 34px;
-      margin: auto;
+      gap: 38px;
+      z-index: 2;
+      position: relative;
     }
-    .team-title {
-      font-size: 2.1rem;
+    .features-title {
+      font-size: 2rem;
       font-weight: 900;
-      letter-spacing: 2px;
-      background: linear-gradient(90deg, #2d46ff 0%, #f58fff 80%);
+      background: linear-gradient(90deg, var(--main) 0%, var(--accent) 90%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 8px;
-      text-shadow: 0 2px 14px #2d46ff29;
-      animation: textPop .7s;
+      margin-bottom: 13px;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 14px #2d46ff25;
+      text-align: center;
     }
-    .team-grid {
-      width: 100%;
+    .features-grid {
       display: flex;
       flex-wrap: wrap;
+      gap: 28px;
       justify-content: center;
-      gap: 34px;
-      margin-top: 18px;
+      margin-top: 12px;
+      width: 100%;
     }
-    .member-card {
-      background: rgba(21, 27, 51, 0.97);
-      border-radius: 24px;
-      box-shadow: 0 6px 28px #2d46ff36, 0 0 0 1.5px #2d46ff2f;
-      padding: 28px 30px 26px 30px;
-      width: 260px;
+    .feature-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: 0 6px 22px #2d46ff1c, 0 0 0 1.5px #2d46ff14;
+      padding: 34px 30px 30px 30px;
+      width: 280px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -287,22 +262,97 @@
       position: relative;
       overflow: hidden;
       transition: transform .18s, box-shadow .22s;
+      text-align: center;
     }
-    .member-card:hover {
-      transform: translateY(-7px) scale(1.025);
-      box-shadow: 0 14px 48px #2d46ff40;
-      border: 2.5px solid #6a81ff42;
+    .feature-card:hover {
+      transform: translateY(-8px) scale(1.035);
+      box-shadow: 0 14px 54px #2d46ff40;
+      border: 2px solid #6a81ff2b;
     }
     @keyframes cardFadeUp {
-      from { opacity: 0; transform: translateY(45px);}
+      from { opacity: 0; transform: translateY(60px);}
       to { opacity: 1; transform: translateY(0);}
+    }
+    .feature-icon {
+      font-size: 2.6rem;
+      margin-bottom: 5px;
+      filter: drop-shadow(0 2px 7px #2d46ff44);
+      transition: transform .3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .feature-card:hover .feature-icon {
+      transform: scale(1.22) rotate(-7deg);
+    }
+    .feature-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: .2px;
+      margin-bottom: 2px;
+    }
+    .feature-desc {
+      font-size: .99rem;
+      color: #c7c7f7;
+      line-height: 1.45;
+    }
+    /* TEAM SECTION */
+    .team-section {
+      max-width: 900px;
+      margin: 70px auto 40px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 38px;
+      z-index: 2;
+      position: relative;
+    }
+    .team-title {
+      font-size: 2rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, var(--main) 0%, #f58fff 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 13px;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 14px #2d46ff25;
+      text-align: center;
+    }
+    .team-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 34px;
+      justify-content: center;
+      margin-top: 10px;
+      width: 100%;
+    }
+    .member-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: 0 6px 28px #2d46ff36, 0 0 0 1.5px #2d46ff2f;
+      padding: 29px 26px 23px 26px;
+      width: 260px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 13px;
+      animation: cardFadeUp 1.1s cubic-bezier(.6,.02,.43,1.05) backwards;
+      position: relative;
+      overflow: hidden;
+      transition: transform .18s, box-shadow .22s;
+    }
+    .member-card:hover {
+      transform: translateY(-7px) scale(1.028);
+      box-shadow: 0 14px 48px #2d46ff40;
+      border: 2.5px solid #6a81ff42;
     }
     .member-img {
       width: 88px;
       height: 88px;
       border-radius: 50%;
       box-shadow: 0 0 18px #f58fff5c, 0 2px 8px #0003;
-      background: linear-gradient(120deg,#2d46ff 50%,#6a81ff 100%);
+      background: linear-gradient(120deg,var(--main) 50%,var(--accent) 100%);
       margin-bottom: 8px;
       object-fit: cover;
       animation: imgPop 1.1s;
@@ -314,7 +364,7 @@
     .member-name {
       font-size: 1.19rem;
       font-weight: 900;
-      color: #6a81ff;
+      color: var(--accent);
       text-shadow: 0 2px 10px #2d46ff1c;
       letter-spacing: .6px;
       margin-bottom: 2px;
@@ -322,44 +372,39 @@
     .member-role {
       font-size: 1.01rem;
       color: #e2cfff;
-      font-weight: 600;
+      font-weight: 700;
       text-align: center;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
       letter-spacing: .2px;
     }
     .member-bio {
-      font-size: .98rem;
+      font-size: .97rem;
       color: #b0b7ff;
       text-align: center;
-      margin-bottom: 2px;
       font-weight: 500;
-      line-height: 1.55;
+      line-height: 1.58;
     }
-
-    /* Socials Page */
-    .socials-container {
-      background: rgba(17, 20, 36, 0.92);
-      border-radius: 30px;
-      box-shadow: 0 8px 32px 0 #2d46ff60, 0 0 0 2px #2d46ff28;
-      max-width: 450px;
-      padding: 52px 34px 36px 34px;
+    /* SOCIALS/COMMUNITY SECTION */
+    .community-section {
+      max-width: 650px;
+      margin: 70px auto 40px auto;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 29px;
-      margin: auto;
-      min-height: 350px;
+      gap: 35px;
+      z-index: 2;
+      position: relative;
     }
-    .socials-title {
+    .community-title {
       font-size: 2rem;
       font-weight: 900;
-      letter-spacing: 2px;
-      background: linear-gradient(90deg, #6a81ff 20%, #2d46ff 70%);
+      background: linear-gradient(90deg, var(--accent) 20%, var(--main) 80%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 12px;
-      text-shadow: 0 2px 14px #2d46ff25;
-      animation: textPop .7s;
+      margin-bottom: 13px;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 14px #2d46ff15;
+      text-align: center;
     }
     .discord-btn {
       background: linear-gradient(90deg, #5865F2 0%, #4a59d9 100%);
@@ -386,7 +431,7 @@
     .discord-btn:hover {
       background: linear-gradient(90deg, #7289DA 0%, #7a92eb 100%);
       box-shadow: 0 0 36px #5865f2a5;
-      transform: scale(1.035);
+      transform: scale(1.045);
     }
     .discord-icon {
       position: absolute;
@@ -399,15 +444,59 @@
       filter: drop-shadow(0 2px 4px #23264b80);
       pointer-events: none;
     }
-
-    /* Responsive */
-    @media (max-width: 850px) {
-      .team-grid { flex-direction: column; align-items: center;}
+    .community-desc {
+      color:#b0b7ff;
+      font-size:.98rem;
+      font-weight:500;
+      text-align:center;
+      margin-top:12px;
+      line-height:1.5;
     }
-    @media (max-width: 600px) {
-      .container, .team-container, .socials-container {padding: 22px 7px 19px 7px;}
-      .title, .team-title, .socials-title { font-size: 1.2rem;}
-      .navbar-inner { padding: 6px 5vw; }
+    /* BACKGROUND ANIMATION */
+    .animated-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.28;
+      animation: float 23s linear infinite;
+      background: radial-gradient(circle, #2d46ff 0%, #13152a 70%);
+    }
+    .circle1 { width: 540px; height: 540px; left: 8%; top: 9%; animation-delay: 0s;}
+    .circle2 { width: 350px; height: 350px; right: 6%; bottom: 14%; animation-delay: 4s;}
+    .circle3 { width: 240px; height: 240px; left: 65%; top: 67%; animation-delay: 8s;}
+    @keyframes float {
+      0% { transform: translateY(0) scale(1);}
+      50% { transform: translateY(-38px) scale(1.07);}
+      100% { transform: translateY(0) scale(1);}
+    }
+    #particles-js {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      top: 0; left: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    /* ANCHOR SCROLL EFFECT */
+    html {
+      scroll-behavior: smooth;
+    }
+    /* RESPONSIVE */
+    @media (max-width: 1100px) {
+      .features-grid, .team-grid { flex-direction: column; align-items: center; }
+    }
+    @media (max-width: 700px) {
+      .navbar-inner { padding: 7px 4vw;}
+      .hero-content, .features-section, .team-section, .community-section { padding-left: 6px; padding-right: 6px; }
+      .hero-content { padding: 37px 4vw 29px 4vw; }
+      .features-title, .team-title, .community-title, .hero-title { font-size: 1.23rem;}
+      .feature-card, .member-card {width: 95vw; min-width: 0;}
     }
   </style>
 </head>
@@ -420,105 +509,132 @@
   </div>
   <div id="particles-js"></div>
 
-  <!-- Navbar -->
+  <!-- NAVBAR -->
   <nav class="navbar">
     <div class="navbar-inner">
-      <div class="navbar-logo" onclick="gotoSection('home')">
+      <div class="navbar-logo" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})">
         <img src="https://i.postimg.cc/jjhJPRFJ/Sentry-X-2.png" alt="SentryX Logo">
         <span>SentryX</span>
       </div>
       <div class="nav-links">
-        <button class="nav-link active" id="nav-home" onclick="gotoSection('home')">Home</button>
-        <button class="nav-link" id="nav-team" onclick="gotoSection('team')">Team</button>
-        <button class="nav-link" id="nav-socials" onclick="gotoSection('socials')">Socials</button>
+        <a class="nav-link active" href="#hero" onclick="setActiveNav(this)">Home</a>
+        <a class="nav-link" href="#features" onclick="setActiveNav(this)">Features</a>
+        <a class="nav-link" href="#team" onclick="setActiveNav(this)">Team</a>
+        <a class="nav-link" href="#community" onclick="setActiveNav(this)">Community</a>
       </div>
     </div>
   </nav>
 
-  <!-- Sections -->
-  <section class="main-section active" id="section-home">
-    <div class="container">
-      <div class="logo">
+  <!-- HERO SECTION -->
+  <section class="hero-section" id="hero">
+    <div class="hero-content">
+      <div class="hero-logo">
         <img src="https://i.postimg.cc/jjhJPRFJ/Sentry-X-2.png" alt="SentryX Logo">
       </div>
-      <div class="title">SentryX</div>
-      <div class="desc">
-        Meet <b>SentryX</b> – your all-in-one, premium Discord bot.<br>
-        <span style="color:#84f8fe">Security</span> | <span style="color:#ffe38a">AutoMod</span> | <span style="color:#f58fff">Logging</span> | <span style="color:#ff888b">Giveaways</span><br>
-        <span style="color:#9cffb0">Professional. Simple. Powerful.</span>
-        <br><br>
-        <span style="color:#fafafa; font-weight:700; font-size:1.05em;">Now Public!</span>
+      <div class="hero-title">SentryX</div>
+      <div class="hero-desc">
+        <b>The Ultimate Discord Security & Utility Bot</b><br>
+        SentryX empowers your server with <span style="color:#84f8fe">real-time security</span>, <span style="color:#ffe38a">auto-moderation</span>, <span style="color:#f58fff">detailed logs</span>, and <span style="color:#ff888b">fun utilities</span>.<br>
+        Trusted by hundreds, easy for everyone.<br>
+        <span style="color:#9cffb0;font-weight:700;font-size:1.09em;">Now Public – Get Protected Instantly!</span>
       </div>
-      <a href="https://discord.com/oauth2/authorize?client_id=1393914240263389225&permissions=8&scope=bot%20applications.commands" target="_blank" class="invite-btn">
-        🚀 Invite Me Now
-      </a>
-    </div>
-  </section>
-
-  <section class="main-section" id="section-team">
-    <div class="team-container">
-      <div class="team-title">Meet the SentryX Team</div>
-      <div class="team-grid">
-        <div class="member-card" style="animation-delay: 0.1s;">
-          <img src="https://i.postimg.cc/Gtw9d5L9/b6d522318b833496091bd40d21c48609.png" class="member-img" alt="DevCrafters">
-          <div class="member-name">DevCrafters</div>
-          <div class="member-role">Discord Bot Developer & Owner</div>
-          <div class="member-bio">Founder & developer of SentryX, crafting secure, powerful bots for the Discord community. Driven by innovation and simplicity.</div>
-        </div>
-        <div class="member-card" style="animation-delay: 0.3s;">
-          <img src="https://i.postimg.cc/2SBJB9rC/d3bbe949e54325e5f48bb53937e6b79a.png" class="member-img" alt="Nobita">
-          <div class="member-name">Nobita</div>
-          <div class="member-role">Expert in Management & Co-Founder</div>
-          <div class="member-bio">Leads management, strategy, and growth for SentryX. Passionate about community, order, and the future of Discord bots.</div>
-        </div>
+      <div class="hero-features">
+        <div class="hero-feature">Antinuke Security</div>
+        <div class="hero-feature">Automod & Spam Defense</div>
+        <div class="hero-feature">Detailed Logging</div>
+        <div class="hero-feature">Giveaways & Roles</div>
+        <div class="hero-feature">Easy Setup</div>
+        <div class="hero-feature">24/7 Uptime</div>
+      </div>
+      <div class="hero-cta">
+        <a href="https://discord.com/oauth2/authorize?client_id=1393914240263389225&permissions=8&scope=bot%20applications.commands" target="_blank" class="invite-btn">
+          🚀 Invite SentryX Now
+        </a>
       </div>
     </div>
   </section>
 
-  <section class="main-section" id="section-socials">
-    <div class="socials-container">
-      <div class="socials-title">Join Our Community</div>
-      <a href="https://discord.gg/YRFcqNB4aj" target="_blank" class="discord-btn">
-        <span class="discord-icon">
-          <!-- Discord SVG icon -->
-          <svg width="26" height="26" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#5865F2"/><path d="M23.994 8.519A22.998 22.998 0 0 0 20.616 7.5a.11.11 0 0 0-.115.055 16.158 16.158 0 0 0-.709 1.453 22.464 22.464 0 0 0-6.584 0 14.24 14.24 0 0 0-.726-1.453.112.112 0 0 0-.114-.055A23.001 23.001 0 0 0 8.009 8.52a.102.102 0 0 0-.047.042C4.808 13.253 4.047 17.872 4.371 22.437a.113.113 0 0 0 .042.081 23.292 23.292 0 0 0 7.025 3.582.11.11 0 0 0 .12-.04 16.67 16.67 0 0 0 1.451-2.372.106.106 0 0 0-.062-.154 14.51 14.51 0 0 1-2.084-.988.11.11 0 0 1-.01-.183c.14-.106.281-.217.417-.328a.109.109 0 0 1 .114-.014c4.392 1.995 9.145 1.995 13.51 0a.111.111 0 0 1 .116.012c.136.11.277.222.418.329a.11.11 0 0 1-.009.183 14.303 14.303 0 0 1-2.087.987.106.106 0 0 0-.061.155 16.364 16.364 0 0 0 1.45 2.371.11.11 0 0 0 .121.04 23.253 23.253 0 0 0 7.022-3.582.112.112 0 0 0 .043-.08c.36-4.59-.609-9.18-3.586-13.877a.1.1 0 0 0-.048-.042zM11.167 19.347c-1.022 0-1.852-.934-1.852-2.08 0-1.147.813-2.08 1.852-2.08 1.048 0 1.867.943 1.852 2.08 0 1.146-.813 2.08-1.852 2.08zm9.687 0c-1.022 0-1.852-.934-1.852-2.08 0-1.147.813-2.08 1.852-2.08 1.048 0 1.868.943 1.852 2.08 0 1.146-.813 2.08-1.852 2.08z" fill="#fff"/></svg>
-        </span>
-        Join Discord Server
-      </a>
-      <div style="color:#b0b7ff;font-size:.98rem;font-weight:500;text-align:center;margin-top:12px;">
-        Hang out with us, get support, share feedback & be part of the SentryX community!
+  <!-- FEATURES SECTION -->
+  <section class="features-section" id="features">
+    <div class="features-title">Why Choose SentryX?</div>
+    <div class="features-grid">
+      <div class="feature-card" style="animation-delay: 0.1s;">
+        <div class="feature-icon">🛡️</div>
+        <div class="feature-title">Antinuke Protection</div>
+        <div class="feature-desc">SentryX actively scans for raids, nukes, and destructive actions. Instant quarantine and auto-recovery features keep your server safe 24/7.</div>
       </div>
+      <div class="feature-card" style="animation-delay: 0.2s;">
+        <div class="feature-icon">🤖</div>
+        <div class="feature-title">Smart AutoMod</div>
+        <div class="feature-desc">Advanced automoderation for words, links, spam, invites, and mass mention abuse – fully customizable and easy to use.</div>
+      </div>
+      <div class="feature-card" style="animation-delay: 0.3s;">
+        <div class="feature-icon">📜</div>
+        <div class="feature-title">Rich Logging</div>
+        <div class="feature-desc">Track every join, leave, role, message, and channel event with beautiful embeds, audit logs, and full traceability.</div>
+      </div>
+      <div class="feature-card" style="animation-delay: 0.4s;">
+        <div class="feature-icon">🎁</div>
+        <div class="feature-title">Giveaways & Utilities</div>
+        <div class="feature-desc">Fun and fair giveaways, role menus, embed builder, info commands and more – all in a single, premium-quality bot.</div>
+      </div>
+      <div class="feature-card" style="animation-delay: 0.5s;">
+        <div class="feature-icon">💡</div>
+        <div class="feature-title">Simple Setup</div>
+        <div class="feature-desc">Slash commands only. No dashboard needed. Designed for everyone – from server owners to new mods.</div>
+      </div>
+      <div class="feature-card" style="animation-delay: 0.6s;">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Ultra Fast & Reliable</div>
+        <div class="feature-desc">Lightning response, 99.9% uptime, minimal lag. Professional support from real humans on our community server.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM SECTION -->
+  <section class="team-section" id="team">
+    <div class="team-title">Meet the SentryX Team</div>
+    <div class="team-grid">
+      <div class="member-card" style="animation-delay: 0.1s;">
+        <img src="https://i.postimg.cc/Gtw9d5L9/b6d522318b833496091bd40d21c48609.png" class="member-img" alt="DevCrafters">
+        <div class="member-name">DevCrafters</div>
+        <div class="member-role">Discord Bot Developer & Owner</div>
+        <div class="member-bio">Founder & principal developer of SentryX. Passionate about building secure, innovative Discord solutions and empowering communities to thrive.</div>
+      </div>
+      <div class="member-card" style="animation-delay: 0.3s;">
+        <img src="https://i.postimg.cc/2SBJB9rC/d3bbe949e54325e5f48bb53937e6b79a.png" class="member-img" alt="Nobita">
+        <div class="member-name">Nobita</div>
+        <div class="member-role">Founder & Head of Management</div>
+        <div class="member-bio">Leads all management, operations, and vision for SentryX. Focused on quality, growth, and the ultimate community experience.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMUNITY SECTION -->
+  <section class="community-section" id="community">
+    <div class="community-title">Join the SentryX Community</div>
+    <a href="https://discord.gg/YRFcqNB4aj" target="_blank" class="discord-btn">
+      <span class="discord-icon">
+        <!-- Discord SVG icon -->
+        <svg width="26" height="26" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#5865F2"/><path d="M23.994 8.519A22.998 22.998 0 0 0 20.616 7.5a.11.11 0 0 0-.115.055 16.158 16.158 0 0 0-.709 1.453 22.464 22.464 0 0 0-6.584 0 14.24 14.24 0 0 0-.726-1.453.112.112 0 0 0-.114-.055A23.001 23.001 0 0 0 8.009 8.52a.102.102 0 0 0-.047.042C4.808 13.253 4.047 17.872 4.371 22.437a.113.113 0 0 0 .042.081 23.292 23.292 0 0 0 7.025 3.582.11.11 0 0 0 .12-.04 16.67 16.67 0 0 0 1.451-2.372.106.106 0 0 0-.062-.154 14.51 14.51 0 0 1-2.084-.988.11.11 0 0 1-.01-.183c.14-.106.281-.217.417-.328a.109.109 0 0 1 .114-.014c4.392 1.995 9.145 1.995 13.51 0a.111.111 0 0 1 .116.012c.136.11.277.222.418.329a.11.11 0 0 1-.009.183 14.303 14.303 0 0 1-2.087.987.106.106 0 0 0-.061.155 16.364 16.364 0 0 0 1.45 2.371.11.11 0 0 0 .121.04 23.253 23.253 0 0 0 7.022-3.582.112.112 0 0 0 .043-.08c.36-4.59-.609-9.18-3.586-13.877a.1.1 0 0 0-.048-.042zM11.167 19.347c-1.022 0-1.852-.934-1.852-2.08 0-1.147.813-2.08 1.852-2.08 1.048 0 1.867.943 1.852 2.08 0 1.146-.813 2.08-1.852 2.08zm9.687 0c-1.022 0-1.852-.934-1.852-2.08 0-1.147.813-2.08 1.852-2.08 1.048 0 1.868.943 1.852 2.08 0 1.146-.813 2.08-1.852 2.08z" fill="#fff"/></svg>
+      </span>
+      Join Discord Server
+    </a>
+    <div class="community-desc">
+      Hang out with the SentryX team, get support, give feedback, and connect with other server owners. Be part of our journey and help shape the future of Discord moderation!
     </div>
   </section>
 
   <!-- Particles.js -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
-    // Animated navigation
-    function gotoSection(section) {
-      document.querySelectorAll('.nav-link').forEach(btn=>btn.classList.remove('active'));
-      document.getElementById('nav-' + section).classList.add('active');
-      document.querySelectorAll('.main-section').forEach(sec=>{
-        sec.classList.remove('active');
-      });
-      setTimeout(()=>{
-        document.getElementById('section-' + section).classList.add('active');
-      },100); // short delay for animation
-      setTimeout(()=>{
-        window.scrollTo(0,0); // always scroll up when changing sections
-      },220);
-    }
-    // Default section is home
-    document.addEventListener('DOMContentLoaded',()=>{
-      gotoSection('home');
-    });
-    // Particles.js config
+    // particles.js config
     particlesJS("particles-js", {
       "particles": {
         "number": { "value": 56, "density": { "enable": true, "value_area": 1000 } },
         "color": { "value": ["#2d46ff", "#84f8fe", "#f58fff", "#9cffb0"] },
         "shape": { "type": "circle" },
-        "opacity": { "value": 0.28, "random": true },
+        "opacity": { "value": 0.25, "random": true },
         "size": { "value": 7, "random": true },
         "line_linked": { "enable": false },
         "move": {
@@ -542,6 +658,27 @@
       },
       "retina_detect": true
     });
+    // Active nav link
+    function setActiveNav(el) {
+      document.querySelectorAll('.nav-link').forEach(link=>link.classList.remove('active'));
+      el.classList.add('active');
+    }
+    // On scroll, highlight nav
+    window.addEventListener('scroll', () => {
+      let sections = ['hero','features','team','community'];
+      let found = false;
+      for (let i = sections.length-1; i >= 0; i--) {
+        let s = document.getElementById(sections[i]);
+        if (window.scrollY + 80 >= s.offsetTop) {
+          document.querySelectorAll('.nav-link').forEach(link=>link.classList.remove('active'));
+          document.querySelector('.nav-link[href="#'+sections[i]+'"]').classList.add('active');
+          found = true;
+          break;
+        }
+      }
+      if (!found) document.querySelectorAll('.nav-link').forEach(link=>link.classList.remove('active'));
+    });
   </script>
 </body>
 </html>
+
